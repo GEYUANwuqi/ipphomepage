@@ -1,0 +1,67 @@
+{
+  "projects": [
+    {
+      "id": "dora-ssr",
+      "name": "Dora SSR",
+      "summary": "让想法在真实设备上运行。跨平台游戏引擎与内置 Web IDE，把代码、场景与创作过程连接在一起。",
+      "category": "engine",
+      "relationship": "IppClub 开发的游戏引擎",
+      "tags": ["跨平台", "Web IDE", "游戏开发"],
+      "featured": true,
+      "illustration": "engine",
+      "links": [
+        { "label": "项目官网", "url": "https://dora-ssr.net/" },
+        { "label": "快速入门", "url": "https://dora-ssr.net/docs/tutorial/quick-start" },
+        { "label": "源码仓库", "url": "https://github.com/IppClub/Dora-SSR" }
+      ],
+      "licenseNote": "README 声明程序采用 MIT 许可；使用所集成的 Spine Runtime 时需另外遵守其商业授权要求。",
+      "sourceUrl": "https://github.com/IppClub/Dora-SSR#readme"
+    },
+    {
+      "id": "yuescript",
+      "name": "YueScript",
+      "summary": "一种编译到 Lua 的语言，用简洁而富有表达力的语法，让创作更接近想法本身。",
+      "category": "language",
+      "relationship": "IppClub 组织下的语言工具项目",
+      "tags": ["Lua", "编程语言", "开发工具"],
+      "featured": true,
+      "illustration": "code",
+      "links": [
+        { "label": "语言文档", "url": "https://yuescript.org/doc" },
+        { "label": "源码仓库", "url": "https://github.com/IppClub/YueScript" }
+      ],
+      "licenseNote": "程序代码采用 MIT 许可；项目角色与其他视觉素材不因代码许可而自动获得再使用授权。",
+      "sourceUrl": "https://github.com/IppClub/YueScript#readme"
+    },
+    {
+      "id": "dora-story",
+      "name": "Dora Story",
+      "summary": "用代码与对话搭起一个故事。基于 Dora SSR 的视觉小说框架，整合 Yarn Spinner 对话系统。",
+      "category": "framework",
+      "relationship": "Dora SSR 生态的视觉小说框架",
+      "tags": ["视觉小说", "Yarn Spinner", "叙事"],
+      "featured": true,
+      "illustration": "story",
+      "links": [
+        { "label": "使用指南与源码", "url": "https://github.com/IppClub/Dora-Story" }
+      ],
+      "licenseNote": "程序采用 MIT 许可；项目使用《灵数奇缘》的代码和授权美术，素材使用需单独核对相关授权。",
+      "sourceUrl": "https://github.com/IppClub/Dora-Story#readme"
+    },
+    {
+      "id": "luv-sense-digital",
+      "name": "灵数奇缘",
+      "summary": "一个基于 Dora SSR、使用 YueScript 编写的 2D 游戏项目。从系统、界面到场景，看看创作如何落地。",
+      "category": "game",
+      "relationship": "社区协作游戏 · IppClub 提供技术支持",
+      "tags": ["2D 游戏", "YueScript", "社区协作"],
+      "featured": false,
+      "illustration": "game",
+      "links": [
+        { "label": "了解游戏项目", "url": "https://github.com/IppClub/LSD" }
+      ],
+      "licenseNote": "程序代码采用 MIT 许可；美术与音乐归《灵数奇缘》社区所有，使用须核对其单独授权。",
+      "sourceUrl": "https://github.com/IppClub/LSD#readme"
+    }
+  ]
+}

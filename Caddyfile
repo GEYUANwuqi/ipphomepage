@@ -1,0 +1,4 @@
+iplusplus.club {
+    encode zstd gzip
+    reverse_proxy app:3001
+}
