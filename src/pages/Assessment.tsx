@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Award, Check, CheckCircle2, ChevronRight, Clock3, Download, Fingerprint, LockKeyhole, RotateCcw, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Award, Check, CheckCircle2, ChevronRight, Download, Fingerprint, LockKeyhole, RotateCcw, ShieldCheck } from 'lucide-react';
 import type { Answers, Attempt, PublicQuestion, Result, Settings } from '../../shared/types';
 import { typeLabels } from '../../shared/types';
 import { api, Button, date, Loading, message, Notice } from '../ui';
@@ -65,10 +65,10 @@ export function Assessment() {
         {!config ? (error ? <Button variant="outlined" onClick={() => window.location.reload()}>重新连接</Button> : <Loading />) : <><div className="quiz-facts"><div><strong>{config.questionCount}<small> 题</small></strong><span>随机抽取</span></div><div><strong>{config.passScore}<small> 分</small></strong><span>通过标准 / 100</span></div><div><strong>60<small> 分钟</small></strong><span>答题有效期</span></div></div>
           {!config.enabled && <Notice>当前是演示题库。可以体验完整答题流程，达标后下载带“演示”标记的纪念图片，<strong>不会签发正式证书</strong>。</Notice>}
           {!config.available && <Notice tone="error">题库正在维护，暂时无法开始。</Notice>}
-          <form onSubmit={e => { e.preventDefault(); void start(); }}><label className="field">证书昵称<input value={name} onChange={e => setName(e.target.value)} maxLength={24} required placeholder="希望我们怎样称呼你？" autoComplete="nickname" /><span className="field-help">1–24 个字符。无需提供真实姓名。</span></label>
-          <div className="privacy-box"><LockKeyhole size={18} /><p>系统保存昵称、答案、分数与时间。正式通过后，昵称、分数、签发时间和规则版本可通过证书编号公开查询；答案仅管理员可见。匿名答题无法核实本人身份，证书仅证明本次问卷达标。</p></div>
+          <form onSubmit={e => { e.preventDefault(); void start(); }}><label className="field">证书昵称<input value={name} onChange={e => setName(e.target.value)} maxLength={24} required placeholder="希望我们怎样称呼你？" autoComplete="nickname" /><span className="field-help">1–24 个字符，无需真名</span></label>
+          <details className="privacy-box"><summary><LockKeyhole size={16} />数据如何保存与公开</summary><p>系统保存昵称、答案、分数与时间。正式通过后，昵称、分数、签发时间和规则版本可通过证书编号公开查询；答案仅管理员可见。匿名答题无法核实本人身份，证书仅证明本次问卷达标。</p></details>
           <label className="check-label"><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} required /><span>我已了解数据用途及公开验真范围，同意保存本次答题记录。</span></label>
-          <Button className="full-button" disabled={busy || !config.available} onClick={() => void start()}>{busy ? '正在准备问卷…' : config.enabled ? '开始正式问卷' : '开始演示问卷'}<ArrowRight size={18} /></Button></form><p className="form-footnote"><Clock3 size={14} /> 切换与刷新可恢复已保存的进度 · 无需一次做完</p></>}
+          <Button className="full-button" disabled={busy || !config.available} onClick={() => void start()}>{busy ? '正在准备问卷…' : config.enabled ? '开始正式问卷' : '开始演示问卷'}<ArrowRight size={18} /></Button></form></>}
       </section></div>
   </div>;
   if (!attempt) return <div className="page narrow">{error ? <><Notice tone="error">{error}</Notice><Link className="text-link" to="/assessment">返回问卷入口 <ArrowRight size={18} /></Link></> : <Loading />}</div>;
