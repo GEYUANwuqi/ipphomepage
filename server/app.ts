@@ -10,14 +10,16 @@ import { z } from 'zod';
 import { seedQuestions } from './seed.ts';
 import { answersSchema, drawQuestions, grade, questionSchema, validateAnswers } from './domain.ts';
 import { certificatePng } from './certificate.ts';
+import { normalizeOrigin, trustedOrigins } from './origin.ts';
 import type { Answers, Question, Result, Settings } from '../shared/types.ts';
 
 type Row = Record<string, any>;
 const hash = (value: string) => createHash('sha256').update(value).digest('hex');
 const HOUR = 3600_000;
-export function createApp(options: { dbPath?: string; adminPassword?: string; origin?: string; production?: boolean; disableRateLimit?: boolean } = {}) {
+export function createApp(options: { dbPath?: string; adminPassword?: string; origin?: string; production?: boolean; developmentOrigins?: string[]; disableRateLimit?: boolean } = {}) {
   const production = options.production ?? process.env.NODE_ENV === 'production';
-  const origin = (options.origin ?? process.env.PUBLIC_ORIGIN ?? 'http://localhost:5173').replace(/\/$/, '');
+  const origin = normalizeOrigin(options.origin ?? process.env.PUBLIC_ORIGIN ?? 'http://localhost:5173');
+  const allowedOrigins = trustedOrigins(origin, production, options.developmentOrigins);
   const adminPassword = options.adminPassword ?? process.env.ADMIN_PASSWORD ?? '';
   if (production && (!origin.startsWith('https://') || adminPassword.length < 16)) throw new Error('生产环境需要 HTTPS PUBLIC_ORIGIN 及至少 16 位 ADMIN_PASSWORD');
   const dbPath = options.dbPath ?? process.env.DATABASE_PATH ?? './data/club.sqlite';
@@ -56,8 +58,10 @@ export function createApp(options: { dbPath?: string; adminPassword?: string; or
   app.use(cookieParser());
   app.use('/api', (_req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
   app.use('/api', (req, res, next) => {
-    if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method) && req.get('origin') !== origin) {
-      res.status(403).json({ error: '请求来源不受信任，请从本站操作' }); return;
+    if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method) && !allowedOrigins.has(req.get('origin') ?? '')) {
+      res.status(403).json({ code: 'UNTRUSTED_ORIGIN', error: production
+        ? '页面来源与站点配置不一致，请通过正式站点地址访问；若仍出现此提示，请联系管理员。'
+        : '当前页面地址未获开发服务器信任。请使用 PUBLIC_ORIGIN 配置的地址，或将实际协议、主机和端口加入 dev.local.json 的 allowedOrigins 后重启服务。' }); return;
     }
     next();
   });

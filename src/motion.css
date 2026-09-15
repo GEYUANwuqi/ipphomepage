@@ -137,7 +137,7 @@ md-filled-button > svg, md-filled-tonal-button > svg, md-outlined-button > svg, 
 table tbody tr, .switch-label, .check-label, .privacy-box, .intro-bottom > span,
 .score-ring, .score-ring strong, .cert-star, .cert-seal, .not-passed > svg,
 .verification-status > svg, .theme-dialog-icon, .preview-spark, .preview-dot,
-.custom-color-picker, .swatch-colors, .mascot-shelf i, .event-plus {
+.custom-color-picker, .swatch-colors, .event-plus {
   transition: translate var(--motion-medium) var(--motion-spring),
     scale var(--motion-medium) var(--motion-spring), rotate var(--motion-medium) var(--motion-spring),
     transform var(--motion-medium) var(--motion-spring), box-shadow var(--motion-medium) var(--motion-standard),

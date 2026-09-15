@@ -5,6 +5,8 @@ import { THEME_PRESETS } from '../src/theme/presets';
 test('member books filter by group/year/search and expose full profiles and bookmark links', async ({ page }, info) => {
   await page.goto('/people');
   await expect(page.locator('.person-book')).toHaveCount(12);
+  await expect(page.getByRole('heading', { name: '站娘 · 待施工' })).toBeVisible();
+  await expect(page.locator('.mascot, .mascot-head, .mascot-gaze')).toHaveCount(0);
   await expect(page.locator('.demo-people-notice')).toContainText('均为虚构');
   const book = page.locator('[data-person-id="dev-person-01"]');
   await expect(book.locator('.person-bookmark')).toHaveCount(4);
@@ -92,8 +94,10 @@ test('visible cards, artwork and UI switches use finite expressive motion', asyn
   expect(await page.locator('.project-card').evaluate(e => getComputedStyle(e).animationName)).toBe('card-cascade');
 
   await page.goto('/people');
-  await page.locator('.shelf-mascot').hover();
-  await expect.poll(() => page.locator('.ear-left').evaluate(e => getComputedStyle(e).animationName)).toBe('ear-flick');
+  await expect(page.locator('.person-book')).toHaveCount(12);
+  await page.locator('main').evaluate(e => Promise.all(e.getAnimations().map(a => a.finished.catch(() => {}))));
+  await page.locator('.construction-sign').hover();
+  await expect.poll(() => page.locator('.construction-sign').evaluate(e => getComputedStyle(e).rotate)).toBe('0deg');
   await page.getByRole('button', { name: '支持者', exact: true }).click();
   expect(await page.locator('.people-sections').evaluate(e => getComputedStyle(e).animationName)).toBe('surface-switch');
 
@@ -135,12 +139,13 @@ test('illustration fills/ink/edges stay fixed across light/dark for every theme 
     await page.getByRole('button', { name: '切换浅色模式' }).click();
   }
   await page.goto('/people');
-  const fills = await page.locator('.mascot [fill]').evaluateAll(nodes => nodes.map(n => getComputedStyle(n).fill));
+  await expect(page.locator('.mascot')).toHaveCount(0);
   await page.getByRole('button', { name: '选择主题色' }).click();
   await page.getByRole('radio', { name: '松石青' }).check();
   await page.getByRole('button', { name: '完成', exact: true }).click();
+  const lightSign = await page.locator('.construction-sign').evaluate(e => { const s = getComputedStyle(e); return [s.backgroundColor, s.color, s.boxShadow]; });
   await page.getByRole('button', { name: '切换深色模式' }).click();
-  expect(await page.locator('.mascot [fill]').evaluateAll(nodes => nodes.map(n => getComputedStyle(n).fill))).toEqual(fills);
+  expect(await page.locator('.construction-sign').evaluate(e => { const s = getComputedStyle(e); return [s.backgroundColor, s.color, s.boxShadow]; })).toEqual(lightSign);
 });
 
 test('community pages fit narrow screens and pass light/dark accessibility checks', async ({ page }, info) => {

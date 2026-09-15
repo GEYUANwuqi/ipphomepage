@@ -13,7 +13,7 @@ SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm ci
 npm run dev
 ```
 
-打开 `http://localhost:5173`。API 监听 `3001`，由 Vite 同源代理。必须使用与 `PUBLIC_ORIGIN` 完全一致的来源（localhost 和 127.0.0.1 不互通）。本地无默认管理密码，未配置时不允许登录。`SHARP_IGNORE_GLOBAL_LIBVIPS=1` 用于避免本机 libvips 触发 Sharp 本地编译，普通环境可省略。
+打开 `http://localhost:5173`。API 监听 `3001`，由 Vite 同源代理。默认只信任 `PUBLIC_ORIGIN` 的来源（协议、主机、端口必须一致）；局域网开发需显式配置下述开发白名单，不能通过放开所有来源解决。本地无默认管理密码，未配置时不允许登录。`SHARP_IGNORE_GLOBAL_LIBVIPS=1` 用于避免本机 libvips 触发 Sharp 本地编译，普通环境可省略。
 
 - `/`：服务导航、精选项目与成员、赛事入口
 - `/people`：成员与支持者书架，支持搜索、组别与年级筛选
@@ -33,6 +33,20 @@ npm run test:e2e     # 自动启动独立测试服务，使用独立测试数据
 npm run test:production # 真实生产 CSP、演示数据剔除、临时夹具验证新增成员/赛事
 npm audit
 ```
+
+## 局域网开发与“不可信来源”提示
+
+从局域网 IP、开发域名或不同端口进入时，浏览器发送的 `Origin` 可能不等于 `PUBLIC_ORIGIN`。此时写接口返回 `403 / UNTRUSTED_ORIGIN`：这是 CSRF 校验拒绝配置外来源，不代表已经遭到入侵。
+
+开发时，将 `dev.local.example.json` 复制为 **`dev.local.json`**，填入实际地址（以下 IP 仅为格式示例）：
+
+```json
+{ "allowedOrigins": ["http://192.168.1.20:5173"] }
+```
+
+修改后重启 `npm run dev`。只填写你控制的来源，不支持通配符；IP 或端口变化需要更新。该文件已被 Git 和 Docker 构建上下文忽略，**生产环境既不读取，也不应用开发例外**，仍只信任 `PUBLIC_ORIGIN`。不会信任请求中的 Host / X-Forwarded-Host 来动态放行。不同地址的浏览器 Cookie 不共享，请从创建问卷的地址继续答题。
+
+正式域名访问仍报错时，应核对生产 `PUBLIC_ORIGIN` 与浏览器地址及反向代理是否保留 Origin，不要关闭校验。证书二维码始终使用 `PUBLIC_ORIGIN`，开发白名单不会改变签发地址。局域网 HTTP 仅用于可信开发网络，不应承载生产凭据或公开暴露。
 
 ## 成员、项目与赛事维护
 
@@ -106,8 +120,8 @@ Compose 固定生产 `PUBLIC_ORIGIN=https://iplusplus.club`。不使用 Docker �
 - `src/motion.css` 统一使用 M3 standard / emphasized / spring 曲线。几乎所有可见卡片、状态容器、筛选按钮、项目/成员/赛事插画和后台列表都提供 180–500ms 的抬升、阴影、形状变化及内部元素联动；只在 `hover:hover` + `pointer:fine` 下启用空间悬停，触屏不会模拟 hover。没有无限循环装饰动画。
 - 路由进入采用 500ms 的淡入、位移、轻微缩放、模糊和圆角裁切，只动画现有 main 节点，不通过给 Routes 加 key 来重新挂载整页表单。项目/成员/赛事筛选、管理 Tab、问卷换题、状态/详情出现另有 300–480ms 的有限切换动画；对话框及昼夜圆形扩散保持独立动效。
 - `prefers-reduced-motion: reduce` 会停用路由、切换、悬停位移、视差和装饰动画，保留立即可见的状态变化与完整操作能力。键盘焦点仍有清晰焦点环，不能悬停的核心信息均有文字或状态色表达。
-- 插画分为独立的 `--art-*` 固定色系：同一种子色的 I++ 三色牌、书脊和项目示意画面，其填充/前景/边缘在昼夜模式下完全相同；UI 背景、容器与按钮仍按 M3 切换。头像、项目原始图片和站娘固有配色不参加 HCT 调色或 CSS 滤镜。
-- `src/components/Mascot.tsx` 提供依据参考特征绘制的可替换简化站娘 SVG，不是官方原画/高清重绘。完整形象只在成员书架出现，Hero 使用猫耳尾巴符号，页脚稀疏使用爪印；耳朵/尾巴/铃铛只在悬停时短暂响应。原始照片不进入生产资源。
+- 插画分为独立的 `--art-*` 固定色系：同一种子色的 I++ 三色牌、书脊和项目示意画面，其填充/前景/边缘在昼夜模式下完全相同；UI 背景、容器与按钮仍按 M3 切换。头像和项目原始图片不参加 HCT 调色或 CSS 滤镜。
+- 成员书架原站娘位置现在显示 **“站娘 · 待施工”** 牌，不渲染人物。两轮人物重绘、眨眼/视线跟随代码已撤回；`src/components/Mascot.tsx` 只保留首页猫咪符号和爪印，原始照片不进入生产资源。待施工牌仅在精确鼠标悬停时轻微摆正，不是按钮。
 - 成员卡采用书脊与书签结构，最多直接展示三条链接，超出的链接和完整简介通过原生 modal dialog 阅读；键盘 Escape/焦点回退、头像失败占位、长文本换行与移动端布局均保留。窄屏主导航改为五项底部导航，赛事入口位于首页、项目页和页脚。
 - 证书有独立可打印浅色外观，Docker 安装 Noto CJK 中文字体；本地生成中文 PNG 也需可用 CJK 字体。
 
@@ -117,7 +131,7 @@ Compose 固定生产 `PUBLIC_ORIGIN=https://iplusplus.club`。不使用 Docker �
 src/pages/       Home / People / Projects / Events / Assessment / Verify / Admin
 src/content/     正式 JSON 数据、类型化导出、开发演示隔离 Provider
 src/dev/         仅开发使用的虚构人物及内联头像
-src/components/  简化站娘、成员书本、项目示意插画
+src/components/  猫咪品牌符号、成员书本、项目示意插画
 src/community.css 书架、工坊、赛事与门户响应式样式
 public/images/   people / projects / events 本地内容图片
 shared/content.ts 内容 schema 与类型
@@ -129,6 +143,8 @@ src/motion.css   悬停、按压、标题与装饰图形动效
 shared/types.ts  前后端共享数据类型（不包含答案题库）
 server/app.ts    API、权限、SQLite 持久化、事务签发
 server/domain.ts 题库校验、随机抽题、评分
+server/origin.ts 严格来源解析与仅开发生效的显式来源配置
+dev.local.example.json 局域网开发来源模板（实际 dev.local.json 不提交）
 server/seed.ts   仅服务端使用的演示题库
 server/certificate.ts 服务端证书 PNG 与二维码
 tests/          单元、集成和浏览器端到端测试

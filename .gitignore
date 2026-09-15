@@ -8,3 +8,5 @@ test-results/
 playwright-report/
 *.tsbuildinfo
 *.log
+# Machine-specific, explicitly trusted development origins
+dev.local.json

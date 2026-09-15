@@ -7,22 +7,25 @@
 .paw-mark { width: 30px; height: 30px; flex-shrink: 0; }
 .cat-signature { width: 88px; height: auto; }
 .hero-cat-mark { position: absolute; width: 79px; top: -40px; left: 8px; rotate: 5deg; }
-.mascot { display: block; width: 232px; height: auto; overflow: visible; }
-.mascot-ear, .mascot-bell, .mascot-tail { transform-box: fill-box; transform-origin: center bottom; }
 .collection-hero { display: flex; align-items: center; justify-content: space-between; gap: 35px; padding: 34px 0 50px; }
 .collection-hero > div:first-child { min-width: 0; }
 .collection-hero .eyebrow { margin-bottom: 22px; }
 .collection-hero h1 { font-size: 46px; line-height: 1.45; margin-bottom: 22px; }
 .collection-hero p { font-size: 14px; line-height: 1.95; margin-bottom: 18px; }
 .collection-note { display: flex; gap: 9px; align-items: center; font-size: 11px; line-height: 1.8; color: var(--md-sys-color-on-surface-variant); }
-.shelf-mascot { position: relative; width: 310px; flex-shrink: 0; padding-top: 22px; align-self: flex-end; }
-.shelf-mascot .mascot { margin: 0 auto; }
-.mascot-caption { display: block; margin: 0 0 10px; text-align: center; color: var(--md-sys-color-on-surface-variant); font-size: 11px; letter-spacing: 1px; }
-.mascot-shelf { height: 46px; border-bottom: 8px solid var(--art-primary-shadow); border-radius: 8px; background: var(--art-primary); color: var(--art-on-primary); margin-top: -8px; position: relative; display: flex; justify-content: flex-end; align-items: center; padding: 0 22px; }
-.mascot-shelf > span { font-family: monospace; font-size: 11px; letter-spacing: 2px; }
-.mascot-shelf i { position: absolute; width: 21px; height: 55px; left: 9px; bottom: 38px; border-radius: 4px 4px 0 0; background: var(--art-peach); border: 1px solid var(--art-peach-shadow); rotate: -12deg; }
-.mascot-shelf i:nth-child(2) { left: 30px; height: 66px; background: var(--art-mint); border-color: var(--art-mint-shadow); rotate: -8deg; }
-.mascot-shelf i:nth-child(3) { left: 52px; height: 50px; rotate: -3deg; }
+/* A reserved illustration slot, not a simulated character or interactive control. */
+.mascot-placeholder { width: 310px; flex-shrink: 0; padding: 18px 10px; }
+.construction-sign { padding: 28px 23px 0; overflow: hidden; text-align: center; border: 1px solid var(--art-primary-shadow); border-radius: 28px; background: var(--art-primary); color: var(--art-on-primary); rotate: -3deg; box-shadow: 0 7px 0 var(--art-primary-shadow); transition: rotate 320ms var(--motion-spring), translate 320ms var(--motion-spring); }
+.construction-mark { display: grid; place-items: center; width: 48px; height: 48px; margin: 0 auto 18px; border: 1px dashed currentColor; border-radius: 16px; font-size: 34px; }
+.construction-label { display: block; font-size: 9px; letter-spacing: 1.4px; }
+.construction-sign h2 { font-size: 26px; margin: 14px 0; }
+.collection-hero .construction-sign p { color: inherit; font-size: 12px; line-height: 1.9; margin-bottom: 26px; }
+.construction-stripe { height: 14px; margin: 0 -23px; background: repeating-linear-gradient(125deg, var(--art-on-primary) 0 12px, var(--art-primary) 12px 24px); opacity: .55; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .mascot-placeholder:hover .construction-sign { rotate: 0deg; translate: 0 -3px; }
+}
+@media (max-width: 760px) { .mascot-placeholder { align-self: center; width: min(290px, 100%); } }
+@media (prefers-reduced-motion: reduce) { .construction-sign { transition: none; } }
 .demo-people-notice { display: flex; align-items: center; gap: 9px; padding: 12px 16px; border-radius: 12px; background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); font-size: 11px; line-height: 1.8; margin: 0 0 24px; }
 .dev-dot { width: 7px; height: 7px; flex-shrink: 0; border-radius: 50%; background: var(--md-sys-color-primary); }
 .people-filters { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--md-sys-color-outline-variant); padding: 0 0 25px; }
@@ -180,19 +183,12 @@
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .person-book:hover, .person-book:focus-within { translate: 0 -5px; box-shadow: 3px 5px 0 var(--md-sys-color-surface-container-high), 5px 7px 0 var(--md-sys-color-outline-variant); }
   .person-bookmark:hover, .person-bookmark:focus-visible { translate: 4px 0; }
-  .shelf-mascot:hover .ear-left { animation: ear-flick 650ms var(--motion-standard); }
-  .shelf-mascot:hover .ear-right { animation: ear-flick 650ms 100ms var(--motion-standard); }
-  .shelf-mascot:hover .mascot-tail { animation: tail-wave 850ms var(--motion-standard); }
-  .shelf-mascot:hover .mascot-bell { animation: bell-tilt 650ms var(--motion-standard); }
   .hero-art:hover .hero-cat-mark { animation: cat-peek 650ms var(--motion-spring); }
   .project-card:hover .project-player { translate: 0 -7px; }
   .project-card:hover .project-star { rotate: 18deg; }
   .project-player, .project-star { transform-box: fill-box; transform-origin: center; transition: translate 400ms var(--motion-spring), rotate 400ms var(--motion-spring); }
   .project-links a:hover, .profile-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
 }
-@keyframes ear-flick { 0%, 100% { rotate: 0deg; } 40% { rotate: -8deg; } 70% { rotate: 3deg; } }
-@keyframes tail-wave { 0%, 100% { rotate: 0deg; } 45% { rotate: 7deg; } }
-@keyframes bell-tilt { 0%, 100% { rotate: 0deg; } 35% { rotate: -10deg; } 65% { rotate: 7deg; } }
 @keyframes cat-peek { 0%, 100% { translate: 0 0; } 45% { translate: 0 -6px; } }
 @media (max-width: 1150px) {
   .header-blog { display: none; }
@@ -215,7 +211,6 @@
   .header-actions { margin-left: auto; }
   .collection-hero h1 { font-size: 38px; }
   .collection-hero p { font-size: 13px; }
-  .shelf-mascot { width: 260px; }.shelf-mascot .mascot { width: 215px; }
   .project-hero-symbol, .event-hero-art { width: 235px; }
   .people-filters .collection-search { flex-basis: 100%; }
   .year-filter { margin-left: auto; }
@@ -226,7 +221,6 @@
 @media (max-width: 760px) {
   .collection-hero { flex-direction: column; align-items: flex-start; padding: 20px 0 35px; gap: 20px; }
   .collection-hero h1 { font-size: 37px; margin-bottom: 18px; }
-  .shelf-mascot { align-self: center; width: 270px; }.shelf-mascot .mascot { width: 194px; }
   .project-hero-symbol { align-self: flex-end; min-height: 145px; width: 220px; margin-top: -5px; }
   .project-hero-symbol > span { font-size: 65px; }.project-hero-symbol b { font-size: 43px; }
   .event-hero-art { align-self: center; height: 180px; width: 260px; margin-top: -18px; }
@@ -297,8 +291,8 @@
   .event-date strong { font-size: 19px; }.event-date > span { font-size: 14px; }
   .event-copy h2 { font-size: 23px; }
 }
-@media (max-width: 360px) { .collection-hero h1 { font-size: 30px; }.shelf-mascot { width: 245px; }.main-nav a { font-size: 10px; }.hero-cat-mark { width: 70px; top: -36px; } }
+@media (max-width: 360px) { .collection-hero h1 { font-size: 30px; }.main-nav a { font-size: 10px; }.hero-cat-mark { width: 70px; top: -36px; } }
 @media (prefers-reduced-motion: reduce) {
-  .mascot *, .hero-cat-mark { animation: none !important; }
+  .hero-cat-mark { animation: none !important; }
   .person-book, .person-bookmark, .project-player, .project-star { transition: none !important; }
 }
