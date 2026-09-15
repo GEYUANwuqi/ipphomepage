@@ -10,9 +10,8 @@
 .collection-hero { display: flex; align-items: center; justify-content: space-between; gap: 35px; padding: 34px 0 50px; }
 .collection-hero > div:first-child { min-width: 0; }
 .collection-hero .eyebrow { margin-bottom: 22px; }
-.collection-hero h1 { font-size: 46px; line-height: 1.45; margin-bottom: 22px; }
+.collection-hero h1 { font-size: 38px; line-height: 1.4; margin-bottom: 22px; }
 .collection-hero p { font-size: 14px; line-height: 1.95; margin-bottom: 18px; }
-.collection-note { display: flex; gap: 9px; align-items: center; font-size: 11px; line-height: 1.8; color: var(--md-sys-color-on-surface-variant); }
 /* A reserved illustration slot, not a simulated character or interactive control. */
 .mascot-placeholder { width: 310px; flex-shrink: 0; padding: 18px 10px; }
 .construction-sign { padding: 28px 23px 0; overflow: hidden; text-align: center; border: 1px solid var(--art-primary-shadow); border-radius: 28px; background: var(--art-primary); color: var(--art-on-primary); rotate: -3deg; box-shadow: 0 7px 0 var(--art-primary-shadow); transition: rotate 320ms var(--motion-spring), translate 320ms var(--motion-spring); }
@@ -93,7 +92,6 @@
 .featured-project { grid-column: 1 / -1; display: grid; grid-template-columns: 1.05fr 1fr; align-items: stretch; }
 .project-art { position: relative; min-width: 0; background: var(--md-sys-color-surface-container-low); display: flex; align-items: center; justify-content: center; padding: 15px 18px 28px; }
 .project-art svg { width: 100%; max-height: 325px; }
-.art-disclaimer { position: absolute; bottom: 13px; right: 18px; font-size: 9px; color: var(--md-sys-color-on-surface-variant); }
 .custom-cover { padding: 0; min-height: 220px; }
 .custom-cover img { width: 100%; height: 100%; min-height: 220px; object-fit: cover; aspect-ratio: 16 / 10; }
 .project-copy { padding: 26px; min-width: 0; overflow-wrap: anywhere; }
@@ -140,8 +138,6 @@
 .featured-people-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 23px; }
 .featured-people-grid .person-content { padding-left: 36px; }
 .featured-people-grid .person-content h3 { font-size: 18px; }
-.home-people-note { display: flex; align-items: center; justify-content: space-between; gap: 20px; font-size: 11px; margin: 24px 0 0; }
-.home-people-note > a { min-height: 48px; display: flex; align-items: center; color: var(--md-sys-color-primary); flex-shrink: 0; }
 .home-events { display: flex; align-items: center; gap: 24px; margin-top: 60px; padding: 28px; border-radius: 24px; background: var(--md-sys-color-tertiary-container); color: var(--md-sys-color-on-tertiary-container); }
 .home-events > div { flex: 1; }
 .home-events h2 { font-size: 24px; margin: 9px 0; }
@@ -166,8 +162,6 @@
 .empty-ticket > span { display: block; font-family: monospace; font-size: 9px; letter-spacing: 1px; margin-bottom: 24px; }
 .empty-ticket > div { border-top: 1px dashed var(--art-on-primary); margin: 24px -25px 15px; }
 .empty-ticket > p { color: inherit; font-size: 11px; margin: 0; }
-.events-about { margin: 42px auto 0; max-width: 640px; text-align: center; }
-.events-about h2 { font-size: 23px; }.events-about p { font-size: 13px; }
 .event-filters { margin-bottom: 28px; }
 .event-list { display: grid; gap: 22px; }
 .event-card { display: flex; gap: 30px; align-items: flex-start; }
@@ -186,7 +180,12 @@
   .hero-art:hover .hero-cat-mark { animation: cat-peek 650ms var(--motion-spring); }
   .project-card:hover .project-player { translate: 0 -7px; }
   .project-card:hover .project-star { rotate: 18deg; }
-  .project-player, .project-star { transform-box: fill-box; transform-origin: center; transition: translate 400ms var(--motion-spring), rotate 400ms var(--motion-spring); }
+  /* 先慢转一圈并把坐标轴抽出来，再切到匀速快转。后声明的动画在 transform 上优先，
+     所以第一段的 both 不会把它冻住。 */
+  .project-card:hover .cube { animation: cube-ease-in 1500ms cubic-bezier(.34, 0, .2, 1) both, cube-spin 3200ms linear 1500ms infinite; }
+  .project-card:hover .project-axes > path { animation: axis-draw 700ms var(--motion-emphasized-decelerate) 200ms both; }
+  .project-card:hover .project-knob { translate: 16px 0; }
+  .project-player, .project-star, .project-knob { transform-box: fill-box; transform-origin: center; transition: translate 400ms var(--motion-spring), rotate 400ms var(--motion-spring); }
   .project-links a:hover, .profile-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
 }
 @keyframes cat-peek { 0%, 100% { translate: 0 0; } 45% { translate: 0 -6px; } }
@@ -254,8 +253,6 @@
   .collection-hero h1 { font-size: 33px; }
   .collection-hero p br { display: none; }
   .collection-hero p { font-size: 12px; }
-  .collection-note { font-size: 10px; align-items: flex-start; }
-  .collection-note svg { margin-top: 2px; }
   .demo-people-notice { font-size: 10px; padding: 11px 13px; }
   .people-filters { gap: 13px; }
   .filter-chips { gap: 6px; }.filter-chips button { padding: 10px 12px; font-size: 11px; }
@@ -276,7 +273,6 @@
   .home-project-grid .compact-project:not(.featured-project) { display: block; }
   .home-project-grid .compact-project:not(.featured-project) .project-art { display: none; }
   .home-project-grid .compact-project:not(.featured-project) .project-copy { padding: 23px; }
-  .home-people-note { display: block; font-size: 11px; }
   .home-events { margin-top: 40px; padding: 22px; align-items: flex-start; }
   .event-teaser-icon { width: 45px; height: 45px; border-radius: 14px; }
   .event-teaser-icon > svg { width: 25px; }
@@ -286,7 +282,6 @@
   .home-events .link-button { margin-left: 0; width: 100%; }
   .home-values { gap: 13px; }.home-values > div { flex: 1; }.home-values h2 { font-size: 19px; }.home-values p { font-size: 11px; }
   .events-empty { padding: 28px 22px; }.events-empty h2 { font-size: 26px; }.events-empty p { font-size: 12px; }
-  .events-about h2 { font-size: 22px; }.events-about p { font-size: 12px; }
   .event-date { flex-direction: row; width: 100%; justify-content: flex-start; gap: 10px; }
   .event-date strong { font-size: 19px; }.event-date > span { font-size: 14px; }
   .event-copy h2 { font-size: 23px; }
@@ -294,5 +289,45 @@
 @media (max-width: 360px) { .collection-hero h1 { font-size: 30px; }.main-nav a { font-size: 10px; }.hero-cat-mark { width: 70px; top: -36px; } }
 @media (prefers-reduced-motion: reduce) {
   .hero-cat-mark { animation: none !important; }
-  .person-book, .person-bookmark, .project-player, .project-star { transition: none !important; }
+  .person-book, .person-bookmark, .project-player, .project-star, .project-knob { transition: none !important; }
+  .cube, .project-axes > path { animation: none !important; }
+  .type-reveal, .type-caret, .project-cursor { animation: none !important; }
 }
+
+/* Typing plays once per hover and then rests. Nothing loops while someone is reading. */
+.type-reveal { transform-box: fill-box; transform-origin: left center; }
+.type-caret { opacity: 0; }
+@keyframes type-reveal { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes type-caret {
+  0% { opacity: 1; translate: 0 0; }
+  99% { opacity: 1; translate: var(--type-width) 0; }
+  100% { opacity: 0; translate: var(--type-width) 0; }
+}
+@keyframes cursor-hide { from, to { opacity: 0; } }
+@keyframes cursor-blink { 0%, 49.9% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  /* The mask needs `backwards` so a line stays hidden during its delay; the caret must not,
+     or every line's caret would already be showing before its turn. */
+  .project-card:hover .type-reveal { animation: type-reveal 900ms steps(16, end) calc(var(--type-line) * 950ms) both; }
+  .project-card:hover .type-caret { animation: type-caret 900ms steps(16, end) calc(var(--type-line) * 950ms) forwards; }
+  /* Stay hidden while the lines type, then blink at the end of the last one. The later
+     animation in the list wins the opacity, so the held `both` state does not freeze it. */
+  .project-card:hover .project-cursor { animation: cursor-hide 2850ms steps(1, end) both, cursor-blink 1060ms linear 2850ms infinite; }
+}
+
+/* rotateX(-30deg) matches the 2:1 ground plane exactly: a 45deg-turned cube then projects
+   its top face exactly twice as wide as it is tall. No perspective, so it stays orthographic
+   like the rest of the flat artwork. */
+.cube-stage { width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; }
+.cube { position: relative; width: 48px; height: 48px; transform-style: preserve-3d; transform: rotateX(-30deg) rotateY(-45deg); }
+.cube-face { position: absolute; inset: 0; box-sizing: border-box; border: 2px solid var(--art-on-mint); background: var(--art-mint-shadow); }
+.cf-front { transform: translateZ(24px); }
+.cf-back { transform: rotateY(180deg) translateZ(24px); }
+.cf-right { transform: rotateY(90deg) translateZ(24px); }
+.cf-left { transform: rotateY(-90deg) translateZ(24px); }
+.cf-top { transform: rotateX(90deg) translateZ(24px); background: var(--art-mint); }
+.cf-bottom { transform: rotateX(-90deg) translateZ(24px); }
+.project-axes > path { stroke-dasharray: 70; stroke-dashoffset: 70; }
+@keyframes axis-draw { to { stroke-dashoffset: 0; } }
+@keyframes cube-ease-in { from { transform: rotateX(-30deg) rotateY(-45deg); } to { transform: rotateX(20deg) rotateY(60deg); } }
+@keyframes cube-spin { from { transform: rotateX(20deg) rotateY(60deg); } to { transform: rotateX(380deg) rotateY(780deg); } }

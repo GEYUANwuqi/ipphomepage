@@ -33,7 +33,7 @@ async function complete(page: Page, questions: Question[], formal: boolean) {
   await page.getByRole('button', { name: '提交并查看结果' }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
   await page.getByRole('button', { name: '确认提交', exact: true }).click();
-  await expect(page.getByRole('heading', { name: '这一次成长，值得记录。' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '问卷已通过' })).toBeVisible();
   return a;
 }
 test('layout at narrow and tablet widths and accessible light/dark entry pages', async ({ page }, info) => {
@@ -72,7 +72,7 @@ test('homepage navigation, theme persistence and responsive layout', async ({ pa
   await page.reload(); await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.screenshot({ path: info.outputPath('homepage-dark.png'), fullPage: true });
   await page.locator('.quiz-card').click();
-  await expect(page.getByRole('heading', { name: /好的社区，\s*从彼此理解开始。/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /社区规则问卷/ })).toBeVisible();
   expect(errors).toEqual([]);
 });
 test('demo all five question types, server scoring, PNG download and reload', async ({ page, request }, info) => {

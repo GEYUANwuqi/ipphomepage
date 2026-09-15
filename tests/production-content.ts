@@ -64,14 +64,14 @@ try {
   await build({ root: fixtureRoot, configFile: false, plugins: [contentValidationPlugin(), react()], logLevel: 'error' });
   assertNoMocks(join(fixtureRoot, 'dist'));
   const fixtureApp = express(); fixtureApp.use(express.static(join(fixtureRoot, 'dist')));
-  fixtureApp.get('/{*path}', (_req, res) => res.sendFile(join(fixtureRoot, 'dist/index.html')));
+  fixtureApp.get('/{*path}', (_req, res) => res.sendFile(join(fixtureRoot, 'dist/index.html'), { dotfiles: 'allow' })); // TMP may sit under a dot directory, which sendFile rejects by default.
   const fixture = await listen(fixtureApp);
   try {
     const page = await browser.newPage();
     await page.goto(fixture.url + '/'); await expect(page.getByRole('heading', { name: '生产夹具伙伴' })).toBeVisible();
     await page.goto(fixture.url + '/people'); await expect(page.locator('.person-book')).toHaveCount(2);
     await expect(page.locator('.demo-people-notice')).toHaveCount(0);
-    await expect(page.getByRole('heading', { name: '感谢一路同行的支持者' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '支持者', exact: true })).toBeVisible();
     for (const width of [320, 1440]) {
       await page.setViewportSize({ width, height: 950 });
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Long member fields overflow at ${width}`);

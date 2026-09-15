@@ -48,7 +48,7 @@ export function ThemeControls() {
     </button>
     <dialog ref={dialog} className="m3-dialog theme-dialog" aria-labelledby="theme-title" aria-describedby="theme-description" onClick={event => { if (event.target === dialog.current) { const r = dialog.current.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) dialog.current.close(); } }}>
       <div className="card-top"><span className="theme-dialog-icon"><Palette size={25} /></span><button className="icon-button" onClick={() => dialog.current?.close()} aria-label="关闭主题设置"><X size={21} /></button></div>
-      <h2 id="theme-title">让这里，更像你。</h2>
+      <h2 id="theme-title">主题设置</h2>
       <p id="theme-description">从一个颜色出发，生成完整的 Material 3 昼夜配色。不是简单换色，而是让整个空间一起呼应。</p>
       <fieldset className="theme-presets"><legend>预设主题色</legend><div className="theme-swatch-grid">
         {presets.map(p => <label key={p.seed} className={`theme-swatch ${selectedSeed === p.seed ? 'selected' : ''}`} style={{ '--swatch-primary': p.colors['--md-sys-color-primary'], '--swatch-secondary': p.colors['--md-sys-color-secondary-container'], '--swatch-tertiary': p.colors['--md-sys-color-tertiary-container'], '--swatch-on-primary': p.colors['--md-sys-color-on-primary'] } as CSSProperties}>

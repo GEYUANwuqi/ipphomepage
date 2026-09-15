@@ -13,7 +13,7 @@ async function pixel(image: Buffer, x: number, y: number) {
 test('preset and custom HCT palettes persist through routes/reloads; picker works on mobile', async ({ page }, info) => {
   await page.goto('/');
   await page.getByRole('button', { name: '选择主题色' }).click();
-  const dialog = page.getByRole('dialog', { name: '让这里，更像你。' });
+  const dialog = page.getByRole('dialog', { name: '主题设置' });
   await expect(dialog).toBeVisible();
   await expect(page.getByRole('radio', { name: '鸢尾紫' })).toBeChecked();
   const before = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--md-sys-color-primary'));
@@ -113,7 +113,7 @@ test('hover has spatial feedback, parallax resets, and route changes animate wit
   await page.evaluate(() => { (window as any).routeAnimationFrames = null; });
   await page.locator('.main-nav').getByRole('link', { name: '素质问卷', exact: true }).click();
   await expect(page).toHaveURL(/\/assessment$/);
-  await expect(page.locator('main h1')).toContainText('好的社区');
+  await expect(page.locator('main h1')).toContainText('社区规则问卷');
   await expect.poll(() => page.evaluate(() => (window as any).routeAnimationFrames)).not.toBeNull();
   const frames = await page.evaluate(() => (window as any).routeAnimationFrames);
   expect(frames[0].opacity).toBe(0); expect(frames[0].filter).toBe('blur(5px)'); expect(frames[0].clipPath).toContain('inset');
