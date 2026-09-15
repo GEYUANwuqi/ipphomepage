@@ -1,11 +1,13 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight, BookOpen, Code2, Github, Trophy } from 'lucide-react';
 import { projects, projectCategories } from '../content';
 import { ProjectCard } from '../components/ProjectCard';
 import { ExternalLink } from '../ui';
 export function Projects() {
-  const [category, setCategory] = useState('all');
+  const [params, setParams] = useSearchParams();
+  const requested = params.get('category');
+  const category = requested && requested in projectCategories ? requested : 'all';
+  const setCategory = (next: string) => setParams(next === 'all' ? {} : { category: next }, { replace: true });
   const visible = projects.filter(p => category === 'all' || p.category === category);
   return <div className="page projects-page"><div className="collection-hero"><div><h1>我们做的项目</h1><p>这里收录 IppClub 与相关社区的项目。</p></div><div className="project-hero-symbol" aria-hidden="true"><span>{'{'}<b>++</b>{'}'}</span></div></div>
     <div className="collection-toolbar"><div className="filter-chips" role="group" aria-label="项目分类"><button aria-pressed={category === 'all'} onClick={() => setCategory('all')}>全部项目</button>{Object.entries(projectCategories).map(([value, label]) => <button key={value} aria-pressed={category === value} onClick={() => setCategory(value)}>{label}</button>)}</div><ExternalLink className="text-link" href="https://github.com/IppClub"><Github size={17} />官方 GitHub</ExternalLink></div>
