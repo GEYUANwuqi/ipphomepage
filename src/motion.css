@@ -56,10 +56,8 @@
   .m3-dialog[open] { animation: dialog-arrive 300ms var(--motion-emphasized-decelerate); }
   .m3-dialog[open]::backdrop { animation: backdrop-arrive 200ms var(--motion-standard); }
   .result-heading, .verification-result, .question-editor { animation: content-arrive 420ms var(--motion-emphasized-decelerate); }
-  .link-button:active, md-filled-button:not([disabled]):active, md-filled-tonal-button:not([disabled]):active,
-  md-outlined-button:not([disabled]):active, md-text-button:not([disabled]):active, .icon-button:not(:disabled):active { scale: .96; }
-  .link-button:focus-visible, md-filled-button:not([disabled]):focus-within,
-  md-outlined-button:not([disabled]):focus-within, md-filled-tonal-button:not([disabled]):focus-within { translate: 0 -2px; }
+  .link-button:active, md-filled-button:not([disabled]):active, md-filled-tonal-button:not([disabled]):active, md-outlined-button:not([disabled]):active, md-text-button:not([disabled]):active, .icon-button:not(:disabled):active { scale: .96; }
+  .link-button:focus-visible, md-filled-button:not([disabled]):focus-within, md-outlined-button:not([disabled]):focus-within, md-filled-tonal-button:not([disabled]):focus-within { translate: 0 -2px; }
   .service-card:focus-visible .service-icon { rotate: -8deg; scale: 1.08; }
 }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
@@ -111,7 +109,7 @@
 }
 
 /* Broad expressive feedback: every visible surface responds, while functional state remains stable. */
-.surface-card, .project-card, .home-events, .home-values, .creation-path, .demo-people-notice, .verification-status, .certificate-preview, .record-detail, .admin-stats, .collection-empty, .theme-preview, .profile-links a, .creation-links a, .question-list article, .intro-features > div, .quiz-facts > div, .detail-list > div, .event-card, .empty-ticket, .project-hero-symbol, .event-pennant, .event-paw, .collection-search, .filter-chips button, .admin-tabs button, .footer-links a, .breadcrumb a, .chip, .page-symbol, .person-avatar, .person-cover, .project-art, .project-art svg, .project-copy h3, .event-cover, .event-teaser-icon, .footer-paw, .notice, .notice > svg, .question-list-number, .question-tags, .option-editor > div, table tbody tr, .switch-label, .check-label, .privacy-box, .score-ring, .score-ring strong, .cert-star, .cert-seal, .not-passed > svg, .verification-status > svg, .theme-dialog-icon, .preview-spark, .preview-dot, .custom-color-picker, .swatch-colors, .event-plus {
+.surface-card, .project-card, .home-events, .home-values, .creation-path, .demo-people-notice, .verification-status, .certificate-preview, .record-detail, .admin-stats, .collection-empty, .theme-preview, .profile-links a, .creation-links a, .question-list article, .quiz-facts > div, .detail-list > div, .event-card, .empty-ticket, .project-hero-symbol, .event-pennant, .event-paw, .collection-search, .filter-chips button, .admin-tabs button, .footer-links a, .breadcrumb a, .chip, .page-symbol, .person-avatar, .person-cover, .project-art, .project-art svg, .project-copy h3, .event-cover, .event-teaser-icon, .footer-paw, .notice, .notice > svg, .question-list-number, .question-tags, .option-editor > div, table tbody tr, .switch-label, .check-label, .privacy-box, .score-ring, .score-ring strong, .cert-star, .cert-seal, .not-passed > svg, .verification-status > svg, .theme-dialog-icon, .preview-spark, .preview-dot, .custom-color-picker, .swatch-colors, .event-plus {
   transition: translate var(--motion-medium) var(--motion-spring),
     scale var(--motion-medium) var(--motion-spring), rotate var(--motion-medium) var(--motion-spring),
     transform var(--motion-medium) var(--motion-spring), box-shadow var(--motion-medium) var(--motion-standard),
@@ -132,11 +130,11 @@
     animation: surface-switch 440ms var(--motion-emphasized-decelerate) backwards;
   }
   .question-body.swap-panel { animation-duration: 320ms; }
-  .swap-collection > *, .people-sections section, .project-gallery > *, .event-list > *, .result-grid > *, .intro-features > div, .admin-stats > div {
+  .swap-collection > *, .people-sections section, .project-gallery > *, .event-list > *, .result-grid > *, .admin-stats > div {
     animation: card-cascade 480ms var(--motion-emphasized-decelerate) backwards;
   }
-  .swap-collection > :nth-child(2), .project-gallery > :nth-child(2), .result-grid > :nth-child(2), .intro-features > :nth-child(2), .admin-stats > :nth-child(2) { animation-delay: 45ms; }
-  .swap-collection > :nth-child(3), .project-gallery > :nth-child(3), .intro-features > :nth-child(3), .admin-stats > :nth-child(3) { animation-delay: 90ms; }
+  .swap-collection > :nth-child(2), .project-gallery > :nth-child(2), .result-grid > :nth-child(2), .admin-stats > :nth-child(2) { animation-delay: 45ms; }
+  .swap-collection > :nth-child(3), .project-gallery > :nth-child(3), .admin-stats > :nth-child(3) { animation-delay: 90ms; }
   .swap-collection > :nth-child(4), .project-gallery > :nth-child(4), .admin-stats > :nth-child(4) { animation-delay: 135ms; }
   .notice, .demo-people-notice { animation: notice-arrive 360ms var(--motion-emphasized-decelerate) backwards; }
   .filter-chips button[aria-pressed='true'], .admin-tabs button.active, .answer-option.selected, .scale-options label.selected, .question-dots button.current, .theme-swatch.selected { animation: state-pop 300ms var(--motion-spring); }
@@ -177,9 +175,6 @@
     translate: 0 -5px; rotate: -7deg; scale: 1.07; border-radius: 50%;
     box-shadow: 0 8px 16px color-mix(in srgb, var(--md-sys-color-shadow) 12%, transparent);
   }
-  .intro-features > div:hover { translate: 5px -3px; }
-  .intro-features > div:hover > svg { rotate: -8deg; scale: 1.1; color: var(--md-sys-color-primary); }
-  .intro-features > div > svg { transition: rotate var(--motion-medium) var(--motion-spring), scale var(--motion-medium) var(--motion-spring), color var(--motion-short); }
   .quiz-facts > div:hover { translate: 0 -4px; background: color-mix(in srgb, var(--md-sys-color-primary) 6%, transparent); }
   .quiz-facts > div:hover strong { scale: 1.06; color: var(--md-sys-color-primary); }
   .quiz-facts strong { transform-origin: left center; transition: scale var(--motion-medium) var(--motion-spring), color var(--motion-short); }

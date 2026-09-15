@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Award, Check, CheckCircle2, ChevronRight, Clock3, Download, Fingerprint, LockKeyhole, RotateCcw, ShieldCheck, Shuffle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Award, Check, CheckCircle2, ChevronRight, Clock3, Download, Fingerprint, LockKeyhole, RotateCcw, ShieldCheck } from 'lucide-react';
 import type { Answers, Attempt, PublicQuestion, Result, Settings } from '../../shared/types';
 import { typeLabels } from '../../shared/types';
 import { api, Button, date, Loading, message, Notice } from '../ui';
@@ -59,7 +59,7 @@ export function Assessment() {
   const required = attempt?.questions.filter(q => q.points > 0).length ?? 0;
   if (!id) return <div className="page assessment-intro">
     <div className="breadcrumb"><Link to="/">首页</Link><ChevronRight size={16} />素质问卷</div>
-    <div className="intro-layout"><section className="intro-copy"><span className="page-symbol peach"><Fingerprint size={30} /></span><h1>社区规则问卷</h1><p className="lead">了解我们在尊重、协作与安全上的共识。</p><div className="intro-features"><div><Shuffle /><section><h3>随机抽题</h3><p>服务端从题库随机抽取，不重复出题。</p></section></div><div><ShieldCheck /><section><h3>自动评分</h3><p>客观题自动评分；简答与量表不计分。</p></section></div><div><Award /><section><h3>可下载证书</h3><p>正式审核通过后，可下载带验真二维码的证书。</p></section></div></div></section>
+    <div className="intro-layout"><section className="intro-copy"><span className="page-symbol peach"><Fingerprint size={30} /></span><h1>社区规则问卷</h1><p className="lead">了解我们在尊重、协作与安全上的共识。</p></section>
       <section className="surface-card start-card"><div className="card-top"><span className="chip"><span className="status-dot" />{config?.enabled ? '正式审核已开放' : '演示体验'}</span><span className="subtle">无需注册</span></div><h2>开始答题</h2><p>填一个昵称即可开始。</p>
         {error && <Notice tone="error">{error}</Notice>}
         {!config ? (error ? <Button variant="outlined" onClick={() => window.location.reload()}>重新连接</Button> : <Loading />) : <><div className="quiz-facts"><div><strong>{config.questionCount}<small> 题</small></strong><span>随机抽取</span></div><div><strong>{config.passScore}<small> 分</small></strong><span>通过标准 / 100</span></div><div><strong>60<small> 分钟</small></strong><span>答题有效期</span></div></div>

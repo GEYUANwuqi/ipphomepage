@@ -306,8 +306,7 @@
 @keyframes cursor-hide { from, to { opacity: 0; } }
 @keyframes cursor-blink { 0%, 49.9% { opacity: 1; } 50%, 100% { opacity: 0; } }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  /* The mask needs `backwards` so a line stays hidden during its delay; the caret must not,
-     or every line's caret would already be showing before its turn. */
+  /* The mask needs `backwards` so a line stays hidden during its delay; the caret must not, or every line's caret would already be showing before its turn. */
   .project-card:hover .type-reveal { animation: type-reveal 900ms steps(16, end) calc(var(--type-line) * 950ms) both; }
   .project-card:hover .type-caret { animation: type-caret 900ms steps(16, end) calc(var(--type-line) * 950ms) forwards; }
   /* Stay hidden while the lines type, then blink at the end of the last one. The later
