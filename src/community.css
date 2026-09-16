@@ -146,8 +146,7 @@
 .home-events .link-button { flex-shrink: 0; }
 .home-values { margin-top: 35px; display: flex; align-items: center; gap: 19px; padding: 22px 4px 0; }
 .home-values > svg { color: var(--md-sys-color-primary); }
-.home-values h2 { margin: 0 0 8px; font-size: 20px; }
-.home-values p { font-size: 12px; margin: 0; }
+.home-values h2 { margin: 0; font-size: 20px; }
 .home-values .text-link { margin-left: auto; flex-shrink: 0; }
 /* Events are a real empty collection until an editor publishes actual records. */
 .event-hero-art { position: relative; width: 290px; height: 225px; flex-shrink: 0; }
@@ -280,7 +279,7 @@
   .home-events h2 { font-size: 21px; }.home-events p { font-size: 11px; }
   .home-events .eyebrow { font-size: 8px; letter-spacing: 1px; }
   .home-events .link-button { margin-left: 0; width: 100%; }
-  .home-values { gap: 13px; }.home-values > div { flex: 1; }.home-values h2 { font-size: 19px; }.home-values p { font-size: 11px; }
+  .home-values { gap: 13px; }.home-values > div { flex: 1; }.home-values h2 { font-size: 19px; }
   .events-empty { padding: 28px 22px; }.events-empty h2 { font-size: 26px; }.events-empty p { font-size: 12px; }
   .event-date { flex-direction: row; width: 100%; justify-content: flex-start; gap: 10px; }
   .event-date strong { font-size: 19px; }.event-date > span { font-size: 14px; }
@@ -330,3 +329,36 @@
 @keyframes axis-draw { to { stroke-dashoffset: 0; } }
 @keyframes cube-ease-in { from { transform: rotateX(-30deg) rotateY(-45deg); } to { transform: rotateX(20deg) rotateY(60deg); } }
 @keyframes cube-spin { from { transform: rotateX(20deg) rotateY(60deg); } to { transform: rotateX(380deg) rotateY(780deg); } }
+/* Community consensus notice: a document page, so the copy column stays narrow and serif. */
+.consensus-page { max-width: 760px; }
+.consensus-hero { padding: 6px 0 34px; border-bottom: 1px solid var(--md-sys-color-outline-variant); }
+.consensus-hero .eyebrow { color: var(--md-sys-color-primary); margin-bottom: 20px; }
+.consensus-hero h1 { font-size: 33px; line-height: 1.6; margin: 0 0 20px; }
+.consensus-issuer { font-size: 11px; letter-spacing: 1.5px; color: var(--md-sys-color-on-surface-variant); margin: 0; }
+.consensus-body { padding-top: 34px; }
+.consensus-body > p { font-size: 14px; line-height: 2.05; margin: 0 0 22px; }
+.consensus-salutation { font-weight: 600; }
+.consensus-lead { color: var(--md-sys-color-on-surface-variant); }
+.consensus-article { display: flex; gap: 18px; align-items: flex-start; margin: 34px 0; padding: 26px 28px; border-radius: 22px; background: var(--md-sys-color-surface-container-low); }
+.consensus-mark { flex-shrink: 0; width: 46px; height: 46px; border-radius: 15px; display: grid; place-items: center; background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
+.consensus-article:nth-of-type(2) .consensus-mark { background: var(--mint); color: var(--on-mint); }
+.consensus-article h2 { font-size: 21px; margin: 6px 0 12px; }
+.consensus-article p { font-size: 13px; line-height: 2.05; margin: 0; }
+.consensus-steps { list-style: none; counter-reset: none; margin: 24px 0 30px; padding: 0; display: grid; gap: 1px; background: var(--md-sys-color-outline-variant); border: 1px solid var(--md-sys-color-outline-variant); border-radius: 16px; overflow: hidden; }
+.consensus-steps li { display: flex; align-items: center; gap: 18px; padding: 16px 20px; background: var(--md-sys-color-surface-container-lowest); font-size: 13px; }
+.consensus-steps span { flex-shrink: 0; width: 66px; font-size: 11px; letter-spacing: 1px; color: var(--md-sys-color-on-surface-variant); }
+.consensus-steps strong { font-weight: 600; }
+.consensus-note { display: flex; align-items: flex-start; gap: 12px; padding: 17px 19px; border-radius: 14px; background: var(--peach); color: var(--on-peach); font-size: 13px !important; line-height: 1.9 !important; }
+.consensus-note > svg { flex-shrink: 0; margin-top: 3px; }
+.consensus-slogan { display: flex; align-items: center; gap: 12px; margin: 32px 0 0 !important; font-size: 20px !important; font-weight: 650; color: var(--md-sys-color-primary); }
+.consensus-slogan .paw-mark { width: 26px; height: 26px; }
+.consensus-footer { display: flex; align-items: center; justify-content: space-between; gap: 22px; flex-wrap: wrap; margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--md-sys-color-outline-variant); }
+.consensus-footer p { font-size: 12px; margin: 0; color: var(--md-sys-color-on-surface-variant); }
+@media (max-width: 600px) {
+  .consensus-hero h1 { font-size: 26px; }
+  .consensus-hero h1 br { display: none; }
+  .consensus-article { flex-direction: column; gap: 14px; padding: 22px; }
+  .consensus-steps li { flex-wrap: wrap; gap: 4px 18px; }
+  .consensus-slogan { font-size: 17px !important; }
+  .consensus-footer .link-button { width: 100%; justify-content: center; }
+}

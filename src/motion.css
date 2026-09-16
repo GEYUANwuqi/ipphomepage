@@ -22,6 +22,12 @@
 .title-line { display: block; }
 .hero h1 > .title-line:first-child { color: var(--md-sys-color-on-surface); }
 .title-letter { display: inline-block; transform-origin: 50% 85%; transition: transform var(--motion-medium) var(--motion-spring); }
+/* The hero's counting plaque. clip-path wipes the panel and its number in together. */
+.counting-line { position: relative; width: fit-content; }
+.title-plaque { position: absolute; inset: -.06em -.16em; display: grid; place-items: center; border-radius: .16em; background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); pointer-events: none; clip-path: inset(0 100% 0 0 round .16em); transition: clip-path var(--motion-long) var(--motion-emphasized-decelerate); }
+.counting-line.is-lit .title-plaque { clip-path: inset(0 0 0 0 round .16em); }
+.title-counter { font-family: monospace; font-size: .74em; font-weight: 700; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) { .title-plaque { display: none; } }
 .hero h1 .title-period { color: var(--md-sys-color-on-surface); }
 .section-heading h2 { width: fit-content; position: relative; }
 .section-heading h2::after { content: ''; position: absolute; left: 0; bottom: -7px; height: 3px; width: 100%; border-radius: 99px; background: var(--md-sys-color-primary); scale: 0 1; transform-origin: left; transition: scale var(--motion-long) var(--motion-emphasized-decelerate); }

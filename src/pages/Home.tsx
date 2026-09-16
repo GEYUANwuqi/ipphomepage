@@ -1,12 +1,37 @@
 import { ArrowRight, ArrowUpRight, BookOpen, Check, Code2, Compass, Fingerprint, HeartHandshake, MoveUpRight, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, PointerEvent, ReactNode } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useArtParallax } from '../motion';
 import { CatSignature, PawMark } from '../components/Mascot';
 import { ProjectCard } from '../components/ProjectCard';
 import { PersonBook } from '../components/PersonBook';
 import { DemoPeopleNotice, usePeople } from '../content/PeopleProvider';
 import { events, projects } from '../content';
+/* Hovering the second title line makes the copy literal: a plaque wipes across 不断加一 and i
+   counts up in hex, easing in until it tops out around i = E and then holds that pace. */
+const FILL_MS = 420, FIRST_STEP_MS = 280, TOP_STEP_MS = 55, TOP_SPEED_AT = 0xe;
+const stepDelay = (n: number) => FIRST_STEP_MS * (TOP_STEP_MS / FIRST_STEP_MS) ** (Math.min(n, TOP_SPEED_AT) / TOP_SPEED_AT);
+function CountingLine({ children }: { children: ReactNode }) {
+  const [lit, setLit] = useState(false);
+  const [count, setCount] = useState(-1);
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => () => clearTimeout(timer.current), []);
+  function enter(event: PointerEvent<HTMLSpanElement>) {
+    if (lit || event.pointerType !== 'mouse') return;
+    if (!matchMedia('(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine)').matches) return;
+    setCount(-1);
+    setLit(true);
+    const tick = (n: number) => { setCount(n); timer.current = setTimeout(() => tick(n + 1), stepDelay(n)); };
+    timer.current = setTimeout(() => tick(0), FILL_MS);
+  }
+  // The number stays mounted on the way out so the plaque wipes it away instead of dropping it.
+  const leave = () => { clearTimeout(timer.current); setLit(false); };
+  return <span className={`title-line counting-line ${lit ? 'is-lit' : ''}`} aria-hidden="true" onPointerEnter={enter} onPointerLeave={leave}>
+    {children}
+    <span className="title-plaque">{count >= 0 && <span key={count} className="title-counter">i = {count.toString(16).toUpperCase()}</span>}</span>
+  </span>;
+}
 function PlusArt() {
   const parallax = useArtParallax();
   return <div className="hero-art" aria-hidden="true" {...parallax}>
@@ -24,7 +49,10 @@ export function Home() {
   const featuredProjects = projects.filter(p => p.featured).slice(0, 3);
   return <div className="home page">
     <section className="hero" aria-labelledby="hero-title">
-      <div className="hero-copy"><h1 id="hero-title" aria-label="让好奇心，不断加一。">{['让好奇心，', '不断加一。'].map((line, row) => <span key={line} className="title-line" aria-hidden="true">{[...line].map((letter, i) => <span key={i} className={`title-letter ${letter === '。' ? 'title-period' : ''}`} style={{ '--letter-index': row * 6 + i } as CSSProperties}>{letter}</span>)}</span>)}</h1>
+      <div className="hero-copy"><h1 id="hero-title" aria-label="让好奇心，不断加一。">{['让好奇心，', '不断加一。'].map((line, row) => {
+          const letters = [...line].map((letter, i) => <span key={i} className={`title-letter ${letter === '。' ? 'title-period' : ''}`} style={{ '--letter-index': row * 6 + i } as CSSProperties}>{letter}</span>);
+          return row === 1 ? <CountingLine key={line}>{letters}</CountingLine> : <span key={line} className="title-line" aria-hidden="true">{letters}</span>;
+        })}</h1>
         <p className="hero-description">我们做游戏引擎、编程语言和开源工具，也写博客。</p>
         <div className="hero-actions"><a className="link-button" href="#explore">探索我们的空间 <ArrowRight size={19} /></a><Link className="text-link" to="/assessment">从一份问卷开始 <ArrowUpRight size={18} /></Link></div>
         </div><PlusArt />
@@ -39,6 +67,6 @@ export function Home() {
     <section className="home-projects" aria-labelledby="home-projects-title"><div className="section-heading"><div><h2 id="home-projects-title">我们做的项目</h2></div><Link className="text-link" to="/projects">进入项目工坊 <ArrowRight size={18} /></Link></div><div className="home-project-grid">{featuredProjects.map((p, i) => <ProjectCard key={p.id} project={p} featured={i === 0} compact />)}</div></section>
     {!!featuredPeople.length && <section className="home-people" aria-labelledby="home-people-title"><div className="section-heading"><div><h2 id="home-people-title">成员与支持者<PawMark /></h2></div><Link className="text-link" to="/people">查看全部成员 <ArrowRight size={18} /></Link></div>{isDemo && <DemoPeopleNotice />}<div className="people-grid featured-people-grid">{featuredPeople.map(p => <PersonBook key={p.id} person={p} />)}</div></section>}
     <section className="home-events" aria-labelledby="home-events-title"><span className="event-teaser-icon"><Trophy size={30} /></span><div><h2 id="home-events-title">赛事</h2><p>{events.length ? `赛事展台已收录 ${events.length} 场赛事。` : '赛事展台已预留，还没有已公布的赛事。'}</p></div><Link className="link-button" to="/events">查看赛事展台 <ArrowRight size={18} /></Link></section>
-    <section className="home-values" aria-labelledby="home-values-title"><HeartHandshake size={25} /><div><h2 id="home-values-title">社区共识</h2><p>尊重不同观点、保护个人信息、善意协作。</p></div><Link className="text-link" to="/assessment">了解社区共识 <ArrowRight size={18} /></Link></section>
+    <section className="home-values" aria-labelledby="home-values-title"><HeartHandshake size={25} /><div><h2 id="home-values-title">尊重不同观点、保护个人信息、善意协作。</h2></div><Link className="text-link" to="/consensus">了解社区共识 <ArrowRight size={18} /></Link></section>
   </div>;
 }
