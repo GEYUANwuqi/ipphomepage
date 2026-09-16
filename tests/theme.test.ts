@@ -42,3 +42,13 @@ test('reveal circle is centered on the trigger and covers every viewport corner'
     }
   }
 });
+
+test('every preset gets a distinct warm off-white page', () => {
+  const surfaces = THEME_PRESETS.map(preset => buildPalette(preset.seed, false)['--md-sys-color-surface']);
+  assert.equal(new Set(surfaces).size, surfaces.length, `surfaces collided: ${surfaces}`);
+  for (const hex of surfaces) {
+    const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
+    assert.ok(r >= g && g >= b, `${hex} is not warm`);
+    assert.ok(r >= 240 && b >= 225, `${hex} is not an off-white`);
+  }
+});

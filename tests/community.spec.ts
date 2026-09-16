@@ -18,7 +18,7 @@ test('member books filter by group/year/search and expose full profiles and book
   await expect(book.getByRole('button', { name: /全部4条链接/ })).toBeFocused();
   await book.getByRole('button', { name: /完整简介/ }).click();
   await expect(dialog.locator('.person-full-description')).toBeVisible();
-  await page.getByRole('button', { name: '合上这一页' }).click();
+  await page.getByRole('button', { name: '关闭', exact: true }).click();
   // Missing runtime image has a real fallback (separate from build-time file validation).
   await book.locator('.person-content img').evaluate(img => img.setAttribute('src', '/not-an-avatar.png'));
   await expect(book.locator('.avatar-fallback')).toBeVisible();
@@ -62,7 +62,7 @@ test('projects show real sources and events have an honest empty state', async (
   await page.goto('/');
   await expect(page.locator('.home-events').getByRole('link', { name: '查看赛事展台' })).toHaveAttribute('href', '/events');
   await expect(page.locator('.main-nav a')).toHaveCount(5);
-  await page.locator('.main-nav').getByRole('link', { name: '成员书架', exact: true }).click();
+  await page.locator('.main-nav').getByRole('link', { name: '成员名录', exact: true }).click();
   await expect(page).toHaveURL(/\/people$/);
 });
 
@@ -90,8 +90,10 @@ test('visible cards, artwork and UI switches use finite expressive motion', asyn
   expect(await languageFilter.evaluate(e => getComputedStyle(e).transitionProperty)).toContain('translate');
   expect(await languageFilter.evaluate(e => getComputedStyle(e).transitionProperty)).toContain('border-radius');
   await languageFilter.click();
-  expect(await page.locator('.project-gallery').evaluate(e => getComputedStyle(e).animationName)).toBe('surface-switch');
-  expect(await page.locator('.project-card').evaluate(e => getComputedStyle(e).animationName)).toBe('card-cascade');
+  // The filter lives in the URL, so React Router applies it in a transition: poll past the node swap
+  // rather than reading the old element, which is already detached and reports empty computed styles.
+  await expect.poll(() => page.locator('.project-gallery').evaluate(e => getComputedStyle(e).animationName)).toBe('surface-switch');
+  await expect.poll(() => page.locator('.project-card').first().evaluate(e => getComputedStyle(e).animationName)).toBe('card-cascade');
 
   await page.goto('/people');
   await expect(page.locator('.person-book')).toHaveCount(12);

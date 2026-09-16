@@ -17,6 +17,40 @@ const roles = [
   'tertiaryFixed', 'tertiaryFixedDim', 'onTertiaryFixed', 'onTertiaryFixedVariant',
 ] as const;
 
+const kebab = (role: string) => role.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
+
+/** HCT hue of warm printing paper. At low chroma every tone on this hue keeps R >= G >= B. */
+const PAPER_HUE = 120;
+/** How far the paper hue may drift toward the seed. 0.18 keeps it inside 88-152deg: never pink, never green. */
+const PAPER_BLEND = 0.18;
+
+/** Warm off-white neutral replacing the seed-tinted M3 one. Blend.harmonize is deliberately not used:
+ *  it caps rotation at 15deg, so every seed collapses onto one of two hues. Blend.hctHue is continuous.
+ *  Chroma tracks the seed too, so two seeds cannot quantize to the same off-white near tone 100. */
+function paperPalette(source: number) {
+  const anchor = Hct.from(PAPER_HUE, 30, 60).toInt();
+  const hue = Hct.fromInt(Blend.hctHue(anchor, source, PAPER_BLEND)).hue;
+  return TonalPalette.fromHueAndChroma(hue, 2.5 + Math.min(Hct.fromInt(source).chroma, 60) / 30);
+}
+
+/** Outline sits at 45 rather than M3's 50: tone 50 on the new surface only clears 4.5:1 by 4%. */
+const PAPER_TONES = {
+  light: {
+    surface: 97.5, background: 97.5, surfaceBright: 99, surfaceDim: 87,
+    surfaceContainerLowest: 100, surfaceContainerLow: 96, surfaceContainer: 94,
+    surfaceContainerHigh: 92, surfaceContainerHighest: 90,
+    onSurface: 10, onBackground: 10, onSurfaceVariant: 38, surfaceVariant: 90,
+    outline: 45, outlineVariant: 80, inverseSurface: 22, inverseOnSurface: 96,
+  },
+  dark: {
+    surface: 7, background: 7, surfaceBright: 26, surfaceDim: 6,
+    surfaceContainerLowest: 4, surfaceContainerLow: 10, surfaceContainer: 12,
+    surfaceContainerHigh: 17, surfaceContainerHighest: 22,
+    onSurface: 92, onBackground: 92, onSurfaceVariant: 78, surfaceVariant: 32,
+    outline: 62, outlineVariant: 38, inverseSurface: 92, inverseOnSurface: 22,
+  },
+} as const;
+
 export function normalizeSeed(seed: unknown): string | null {
   return typeof seed === 'string' && /^#[a-f\d]{6}$/i.test(seed) ? seed.toLowerCase() : null;
 }
@@ -26,9 +60,11 @@ export function buildPalette(seed: string, dark: boolean): Record<string, string
   const source = argbFromHex(normalizeSeed(seed) ?? DEFAULT_SEED);
   const scheme = new SchemeTonalSpot(Hct.fromInt(source), dark, 0);
   const tokens: Record<string, string> = {};
-  for (const role of roles) {
-    const name = role.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
-    tokens[`--md-sys-color-${name}`] = hexFromArgb(scheme[role]);
+  for (const role of roles) tokens[`--md-sys-color-${kebab(role)}`] = hexFromArgb(scheme[role]);
+  // Warm paper replaces the seed-tinted M3 neutral. Accent and illustration colors stay untouched.
+  const paper = paperPalette(source);
+  for (const [role, tone] of Object.entries(PAPER_TONES[dark ? 'dark' : 'light'])) {
+    tokens[`--md-sys-color-${kebab(role)}`] = hexFromArgb(paper.tone(tone));
   }
   tokens['--lavender'] = hexFromArgb(scheme.primaryContainer);
   tokens['--on-lavender'] = hexFromArgb(scheme.onPrimaryContainer);
