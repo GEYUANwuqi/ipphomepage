@@ -673,6 +673,13 @@ table tbody tr,
       0 0 0 4px var(--md-sys-color-surface-container-lowest),
       0 8px 16px #0002;
   }
+  .person-book:hover .person-avatar.lead-avatar {
+    box-shadow:
+      0 0 0 4px var(--md-sys-color-surface-container-lowest),
+      0 0 0 6px var(--lead-glow-soft),
+      0 0 22px 6px var(--lead-glow),
+      0 8px 16px #0002;
+  }
   .person-book:hover .person-content h3 {
     color: var(--md-sys-color-primary);
     translate: 3px 0;

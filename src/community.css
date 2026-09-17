@@ -347,6 +347,10 @@
   display: grid;
   place-items: center;
 }
+/* Sitting president: square avatar, so the lead reads differently from everyone else at a glance. Gold is a hover-only glow, see motion.css. */
+.person-avatar.lead-avatar {
+  border-radius: 4px;
+}
 .person-content h3 {
   margin: 22px 0 10px;
   font-size: 20px;

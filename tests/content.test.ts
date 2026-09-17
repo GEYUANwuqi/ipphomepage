@@ -28,6 +28,17 @@ const event = {
 test('people contract supports defaults and rejects incorrect years, groups, links and paths', () => {
   assert.deepEqual(personSchema.parse(person).links, []);
   assert.equal(personSchema.parse(person).featured, false);
+  assert.equal(personSchema.parse(person).lead, false);
+  assert.equal(peopleFileSchema.safeParse({ people: [{ ...person, lead: true }] }).success, true);
+  assert.equal(
+    peopleFileSchema.safeParse({
+      people: [
+        { ...person, lead: true },
+        { ...person, id: 'other-person', lead: true }
+      ]
+    }).success,
+    false
+  );
   for (const changes of [
     { year: '2025' },
     { year: 2025.5 },
@@ -105,6 +116,8 @@ test('development directory is deterministic and includes all layout edge cases'
   assert.ok(people.some(p => p.links.length > 3));
   assert.equal(new Set(people.map(p => p.id)).size, 12);
   assert.equal(people.filter(p => p.featured).length, 4);
+  assert.equal(people.filter(p => p.lead).length, 1);
+  assert.equal(people[0].lead, true);
   assert.ok(people.every(p => p.avatar.startsWith('data:image/svg+xml,')));
   assert.ok(people.some(p => p.group === 'supporter'));
 });

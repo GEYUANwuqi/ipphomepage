@@ -51,6 +51,9 @@
   --on-peach: #62422b;
   --lavender: #e9e1f6;
   --on-lavender: #493575;
+  /* Sitting president's hover glow: deliberately fixed — not seed-harmonized, not mode-swapped, so gold stays gold. */
+  --lead-glow: #c8992f80;
+  --lead-glow-soft: #e7c76a66;
   --md-ref-typeface-brand: 'Noto Serif SC', 'Serif Fallback', Songti SC, STSong, SimSun, Georgia, serif;
   --md-ref-typeface-plain: 'Inter', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   font-family: var(--md-ref-typeface-plain);

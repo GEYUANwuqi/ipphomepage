@@ -10,6 +10,16 @@ test('member books filter by group/year/search and expose full profiles and book
   await expect(page.locator('.demo-people-notice')).toContainText('均为虚构');
   const book = page.locator('[data-person-id="dev-person-01"]');
   await expect(book.locator('.person-bookmark')).toHaveCount(4);
+  await expect(page.locator('.person-content .person-avatar.lead-avatar')).toHaveCount(1);
+  await expect(page.locator('.person-book').first()).toHaveAttribute('data-person-id', 'dev-person-01');
+  expect(await book.locator('.person-content .person-avatar').evaluate(e => getComputedStyle(e).borderRadius)).toBe(
+    '4px'
+  );
+  expect(
+    await page
+      .locator('[data-person-id="dev-person-02"] .person-content .person-avatar')
+      .evaluate(e => getComputedStyle(e).borderRadius)
+  ).toBe('20px');
   await book.getByRole('button', { name: /全部4条链接/ }).click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
