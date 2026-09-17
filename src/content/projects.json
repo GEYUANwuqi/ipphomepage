@@ -42,9 +42,7 @@
       "tags": ["视觉小说", "Yarn Spinner", "叙事"],
       "featured": true,
       "illustration": "story",
-      "links": [
-        { "label": "使用指南与源码", "url": "https://github.com/IppClub/Dora-Story" }
-      ],
+      "links": [{ "label": "使用指南与源码", "url": "https://github.com/IppClub/Dora-Story" }],
       "licenseNote": "程序采用 MIT 许可；项目使用《灵数奇缘》的代码和授权美术，素材使用需单独核对相关授权。",
       "sourceUrl": "https://github.com/IppClub/Dora-Story#readme"
     },
@@ -57,9 +55,7 @@
       "tags": ["2D 游戏", "YueScript", "社区协作"],
       "featured": false,
       "illustration": "game",
-      "links": [
-        { "label": "了解游戏项目", "url": "https://github.com/IppClub/LSD" }
-      ],
+      "links": [{ "label": "了解游戏项目", "url": "https://github.com/IppClub/LSD" }],
       "licenseNote": "程序代码采用 MIT 许可；美术与音乐归《灵数奇缘》社区所有，使用须核对其单独授权。",
       "sourceUrl": "https://github.com/IppClub/LSD#readme"
     }

@@ -10,7 +10,7 @@ function dropLegacyWoff(): Plugin {
     transform(code, id) {
       if (!id.includes('@fontsource') || !id.includes('.css')) return null;
       return code.replace(/,\s*url\([^)]+\.woff\)\s*format\('woff'\)/g, '');
-    },
+    }
   };
 }
 
@@ -19,7 +19,7 @@ export default defineConfig({
   build: {
     // Production CSP is font-src 'self'; Vite would otherwise inline sub-4KB subsets as data: URIs and get them blocked.
     assetsInlineLimit: (file: string) => (/\.(woff2?|ttf|otf|eot)$/i.test(file) ? false : undefined),
-    rollupOptions: { output: { manualChunks: { 'material-color': ['@material/material-color-utilities'] } } },
+    rollupOptions: { output: { manualChunks: { 'material-color': ['@material/material-color-utilities'] } } }
   },
-  server: { proxy: { '/api': 'http://127.0.0.1:3001' } },
+  server: { proxy: { '/api': 'http://127.0.0.1:3001' } }
 });

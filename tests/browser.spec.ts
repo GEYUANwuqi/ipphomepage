@@ -4,12 +4,23 @@ import AxeBuilder from '@axe-core/playwright';
 import type { Attempt, Question } from '../shared/types';
 const origin = 'http://localhost:5173';
 async function adminContext(request: APIRequestContext) {
-  const login = await request.post('/api/admin/login', { headers: { Origin: origin }, data: { password: 'browser-test-only-password' } }); expect(login.ok()).toBeTruthy();
+  const login = await request.post('/api/admin/login', {
+    headers: { Origin: origin },
+    data: { password: 'browser-test-only-password' }
+  });
+  expect(login.ok()).toBeTruthy();
   return request;
 }
 async function setMode(request: APIRequestContext, enabled: boolean) {
   await adminContext(request);
-  expect((await request.put('/api/admin/settings', { headers: { Origin: origin }, data: { enabled, questionCount: 14, passScore: 80, reviewed: true } })).ok()).toBeTruthy();
+  expect(
+    (
+      await request.put('/api/admin/settings', {
+        headers: { Origin: origin },
+        data: { enabled, questionCount: 14, passScore: 80, reviewed: true }
+      })
+    ).ok()
+  ).toBeTruthy();
 }
 async function complete(page: Page, questions: Question[], formal: boolean) {
   await page.goto('/assessment');
@@ -21,13 +32,18 @@ async function complete(page: Page, questions: Question[], formal: boolean) {
   expect(a.questions.some(q => 'correct' in q || 'explanation' in q)).toBeFalsy();
   await expect(page.locator('.question-panel')).toBeVisible();
   for (let i = 0; i < a.questions.length; i++) {
-    const q = a.questions[i], known = questions.find(item => item.id === q.id)!;
+    const q = a.questions[i],
+      known = questions.find(item => item.id === q.id)!;
     if (q.points) for (const correct of known.correct) await page.locator('.answer-option').nth(correct).click();
-    else if (q.type === 'text') await page.getByRole('textbox', { name: '你的想法' }).fill('一起完善文档，帮助后来的人。');
+    else if (q.type === 'text')
+      await page.getByRole('textbox', { name: '你的想法' }).fill('一起完善文档，帮助后来的人。');
     else await page.locator('.scale-options label').nth(4).click();
     if (i < a.questions.length - 1) {
       await page.getByRole('button', { name: '下一题', exact: true }).click();
-      if (i === 0) expect(await page.locator('.question-body').evaluate(e => getComputedStyle(e).animationName)).toBe('surface-switch');
+      if (i === 0)
+        expect(await page.locator('.question-body').evaluate(e => getComputedStyle(e).animationName)).toBe(
+          'surface-switch'
+        );
     }
   }
   await page.getByRole('button', { name: '提交并查看结果' }).click();
@@ -43,7 +59,13 @@ test('layout at narrow and tablet widths and accessible light/dark entry pages',
     for (const route of ['/', '/assessment', '/verify', '/admin']) {
       await page.goto(route);
       await expect(page.locator('main h1')).toBeVisible();
-      const overflow = await page.evaluate(() => ({ ok: document.documentElement.scrollWidth <= innerWidth, elements: [...document.querySelectorAll('main *, footer *')].filter(e => e.getBoundingClientRect().right > innerWidth + 1).slice(0, 12).map(e => `${e.tagName}.${e.className}: ${Math.round(e.getBoundingClientRect().right)}`) }));
+      const overflow = await page.evaluate(() => ({
+        ok: document.documentElement.scrollWidth <= innerWidth,
+        elements: [...document.querySelectorAll('main *, footer *')]
+          .filter(e => e.getBoundingClientRect().right > innerWidth + 1)
+          .slice(0, 12)
+          .map(e => `${e.tagName}.${e.className}: ${Math.round(e.getBoundingClientRect().right)}`)
+      }));
       expect(overflow.ok, `${route} overflows at ${width}px: ${overflow.elements.join(', ')}`).toBeTruthy();
     }
   }
@@ -53,14 +75,18 @@ test('layout at narrow and tablet widths and accessible light/dark entry pages',
     await page.goto(route);
     await expect(page.locator('main h1')).toBeVisible();
     for (const theme of ['light', 'dark']) {
-      await page.evaluate(theme => document.documentElement.dataset.theme = theme, theme);
+      await page.evaluate(theme => (document.documentElement.dataset.theme = theme), theme);
       const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
-      expect(results.violations.filter(v => v.impact === 'serious' || v.impact === 'critical'), `${route} ${theme}`).toEqual([]);
+      expect(
+        results.violations.filter(v => v.impact === 'serious' || v.impact === 'critical'),
+        `${route} ${theme}`
+      ).toEqual([]);
     }
   }
 });
 test('homepage navigation, theme persistence and responsive layout', async ({ page }, info) => {
-  const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
+  const errors: string[] = [];
+  page.on('pageerror', e => errors.push(e.message));
   await page.goto('/');
   await expect(page.getByRole('heading', { name: /让好奇心，\s*不断加一。/ })).toBeVisible();
   await expect(page.locator('.blog-card')).toHaveAttribute('href', 'https://ippclub.org/');
@@ -69,7 +95,8 @@ test('homepage navigation, theme persistence and responsive layout', async ({ pa
   await page.screenshot({ path: info.outputPath('homepage-light.png'), fullPage: true });
   await page.getByRole('button', { name: '切换深色模式' }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  await page.reload(); await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.screenshot({ path: info.outputPath('homepage-dark.png'), fullPage: true });
   await page.locator('.quiz-card').click();
   await expect(page.getByRole('heading', { name: /社区规则问卷/ })).toBeVisible();
@@ -84,12 +111,16 @@ test('demo all five question types, server scoring, PNG download and reload', as
   await page.screenshot({ path: info.outputPath('demo-result.png'), fullPage: true });
   const downloaded = page.waitForEvent('download');
   await page.getByRole('button', { name: '下载演示纪念图片' }).click();
-  const file = await downloaded; expect(file.suggestedFilename()).toContain('DEMO');
-  const png = await readFile((await file.path())!); expect([...png.subarray(0, 8)]).toEqual([137,80,78,71,13,10,26,10]);
+  const file = await downloaded;
+  expect(file.suggestedFilename()).toContain('DEMO');
+  const png = await readFile((await file.path())!);
+  expect([...png.subarray(0, 8)]).toEqual([137, 80, 78, 71, 13, 10, 26, 10]);
   await file.saveAs(info.outputPath('certificate-demo.png'));
-  await page.reload(); await expect(page.getByRole('heading', { name: '演示结果 · 已通过' })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('heading', { name: '演示结果 · 已通过' })).toBeVisible();
   const result = (await (await page.request.get(`/api/attempts/${a.id}`)).json()).result;
-  expect(result.score).toBe(100); expect(result.certificateId).toBeNull();
+  expect(result.score).toBe(100);
+  expect(result.certificateId).toBeNull();
 });
 test('formal certificate public verification and revocation', async ({ page, request }, info) => {
   await setMode(request, true);
@@ -103,7 +134,8 @@ test('formal certificate public verification and revocation', async ({ page, req
   await page.screenshot({ path: info.outputPath('verification.png'), fullPage: true });
   const id = page.url().split('/').pop();
   await request.post(`/api/admin/certificates/${id}/revoke`, { headers: { Origin: origin }, data: {} });
-  await page.reload(); await expect(page.getByRole('heading', { name: '证书已撤销' })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('heading', { name: '证书已撤销' })).toBeVisible();
 });
 test('admin UI CRUD, publish safeguard and logout', async ({ page, request }, info) => {
   await setMode(request, false);

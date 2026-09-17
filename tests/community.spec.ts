@@ -12,9 +12,11 @@ test('member books filter by group/year/search and expose full profiles and book
   await expect(book.locator('.person-bookmark')).toHaveCount(4);
   await book.getByRole('button', { name: /全部4条链接/ }).click();
   const dialog = page.getByRole('dialog');
-  await expect(dialog).toBeVisible(); await expect(dialog.locator('.profile-links a')).toHaveCount(4);
+  await expect(dialog).toBeVisible();
+  await expect(dialog.locator('.profile-links a')).toHaveCount(4);
   await expect(dialog.locator('.profile-links a').first()).toHaveAttribute('rel', 'noopener noreferrer');
-  await page.keyboard.press('Escape'); await expect(dialog).not.toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(dialog).not.toBeVisible();
   await expect(book.getByRole('button', { name: /全部4条链接/ })).toBeFocused();
   await book.getByRole('button', { name: /完整简介/ }).click();
   await expect(dialog.locator('.person-full-description')).toBeVisible();
@@ -38,29 +40,41 @@ test('member books filter by group/year/search and expose full profiles and book
   await page.getByRole('combobox', { name: '年级', exact: true }).selectOption('all');
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: info.outputPath('people-books.png'), fullPage: true, animations: 'disabled' });
-  await page.reload(); await expect(page.locator('.person-book')).toHaveCount(12);
+  await page.reload();
+  await expect(page.locator('.person-book')).toHaveCount(12);
 });
 
 test('projects show real sources and events have an honest empty state', async ({ page }, info) => {
   await page.goto('/projects');
   await expect(page.locator('.project-card')).toHaveCount(4);
   const engine = page.locator('[data-project-id="dora-ssr"]');
-  await expect(engine.getByRole('link', { name: /源码仓库/ })).toHaveAttribute('href', 'https://github.com/IppClub/Dora-SSR');
+  await expect(engine.getByRole('link', { name: /源码仓库/ })).toHaveAttribute(
+    'href',
+    'https://github.com/IppClub/Dora-SSR'
+  );
   await expect(page.locator('[data-project-id="luv-sense-digital"]')).toContainText('IppClub 提供技术支持');
-  await engine.locator('summary').click(); await expect(engine.locator('.project-license')).toContainText('Spine Runtime');
+  await engine.locator('summary').click();
+  await expect(engine.locator('.project-license')).toContainText('Spine Runtime');
   await page.getByRole('button', { name: '语言工具', exact: true }).click();
-  await expect(page.locator('.project-card')).toHaveCount(1); await expect(page.getByRole('heading', { name: 'YueScript', exact: true })).toBeVisible();
+  await expect(page.locator('.project-card')).toHaveCount(1);
+  await expect(page.getByRole('heading', { name: 'YueScript', exact: true })).toBeVisible();
   await page.getByRole('button', { name: '全部项目', exact: true }).click();
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: info.outputPath('projects.png'), fullPage: true, animations: 'disabled' });
-  await page.locator('.creation-links').getByRole('link', { name: /关注赛事展台/ }).click();
+  await page
+    .locator('.creation-links')
+    .getByRole('link', { name: /关注赛事展台/ })
+    .click();
   await expect(page).toHaveURL(/\/events$/);
   await expect(page.getByText('目前暂无已公布赛事。', { exact: true })).toBeVisible();
   await expect(page.locator('.event-card')).toHaveCount(0);
   await expect(page.getByRole('button', { name: /报名/ })).toHaveCount(0);
   await page.screenshot({ path: info.outputPath('events-empty.png'), fullPage: true, animations: 'disabled' });
   await page.goto('/');
-  await expect(page.locator('.home-events').getByRole('link', { name: '查看赛事展台' })).toHaveAttribute('href', '/events');
+  await expect(page.locator('.home-events').getByRole('link', { name: '查看赛事展台' })).toHaveAttribute(
+    'href',
+    '/events'
+  );
   await expect(page.locator('.main-nav a')).toHaveCount(5);
   await page.locator('.main-nav').getByRole('link', { name: '成员名录', exact: true }).click();
   await expect(page).toHaveURL(/\/people$/);
@@ -71,29 +85,56 @@ test('visible cards, artwork and UI switches use finite expressive motion', asyn
   const moved = async (selector: string, property: 'translate' | 'scale' | 'rotate' = 'translate') => {
     const locator = page.locator(selector).first();
     await locator.hover();
-    await expect.poll(() => locator.evaluate((element, property) => getComputedStyle(element)[property as 'translate'], property)).not.toBe('none');
+    await expect
+      .poll(() => locator.evaluate((element, property) => getComputedStyle(element)[property as 'translate'], property))
+      .not.toBe('none');
   };
   await page.goto('/');
   for (const selector of ['.service-card', '.project-card', '.person-book', '.home-events', '.home-values']) {
-    const element = page.locator(selector).first(); await expect(element).toBeVisible();
+    const element = page.locator(selector).first();
+    await expect(element).toBeVisible();
     expect(await element.evaluate(e => getComputedStyle(e).transitionDuration)).not.toMatch(/^(0s,?\s*)+$/);
   }
   await moved('.home-events');
   await page.locator('.project-card').first().hover();
-  await expect.poll(() => page.locator('.project-card .project-art svg').first().evaluate(e => getComputedStyle(e).scale)).not.toBe('none');
+  await expect
+    .poll(() =>
+      page
+        .locator('.project-card .project-art svg')
+        .first()
+        .evaluate(e => getComputedStyle(e).scale)
+    )
+    .not.toBe('none');
   await page.locator('.person-book').first().hover();
-  await expect.poll(() => page.locator('.person-book .person-avatar').first().evaluate(e => getComputedStyle(e).translate)).not.toBe('none');
+  await expect
+    .poll(() =>
+      page
+        .locator('.person-book .person-avatar')
+        .first()
+        .evaluate(e => getComputedStyle(e).translate)
+    )
+    .not.toBe('none');
 
   await page.goto('/projects');
-  await moved('.project-card'); await moved('.project-hero-symbol', 'rotate');
+  await moved('.project-card');
+  await moved('.project-hero-symbol', 'rotate');
   const languageFilter = page.getByRole('button', { name: '语言工具', exact: true });
   expect(await languageFilter.evaluate(e => getComputedStyle(e).transitionProperty)).toContain('translate');
   expect(await languageFilter.evaluate(e => getComputedStyle(e).transitionProperty)).toContain('border-radius');
   await languageFilter.click();
   // The filter lives in the URL, so React Router applies it in a transition: poll past the node swap
   // rather than reading the old element, which is already detached and reports empty computed styles.
-  await expect.poll(() => page.locator('.project-gallery').evaluate(e => getComputedStyle(e).animationName)).toBe('surface-switch');
-  await expect.poll(() => page.locator('.project-card').first().evaluate(e => getComputedStyle(e).animationName)).toBe('card-cascade');
+  await expect
+    .poll(() => page.locator('.project-gallery').evaluate(e => getComputedStyle(e).animationName))
+    .toBe('surface-switch');
+  await expect
+    .poll(() =>
+      page
+        .locator('.project-card')
+        .first()
+        .evaluate(e => getComputedStyle(e).animationName)
+    )
+    .toBe('card-cascade');
 
   await page.goto('/people');
   await expect(page.locator('.person-book')).toHaveCount(12);
@@ -101,7 +142,9 @@ test('visible cards, artwork and UI switches use finite expressive motion', asyn
   await page.locator('.construction-sign').hover();
   await expect.poll(() => page.locator('.construction-sign').evaluate(e => getComputedStyle(e).rotate)).toBe('0deg');
   await page.getByRole('button', { name: '支持者', exact: true }).click();
-  expect(await page.locator('.people-sections').evaluate(e => getComputedStyle(e).animationName)).toBe('surface-switch');
+  expect(await page.locator('.people-sections').evaluate(e => getComputedStyle(e).animationName)).toBe(
+    'surface-switch'
+  );
 
   await page.goto('/events');
   await page.waitForTimeout(500);
@@ -110,17 +153,21 @@ test('visible cards, artwork and UI switches use finite expressive motion', asyn
   await expect.poll(() => page.locator('.empty-ticket').evaluate(e => getComputedStyle(e).translate)).not.toBe('none');
 
   await page.goto('/assessment');
-  await expect(page.locator('.notice')).toBeVisible(); await page.waitForTimeout(400);
+  await expect(page.locator('.notice')).toBeVisible();
+  await page.waitForTimeout(400);
   await page.locator('.notice').hover();
   await expect.poll(() => page.locator('.notice').evaluate(e => getComputedStyle(e).translate)).not.toBe('none');
   for (const route of ['/assessment', '/verify', '/admin']) {
-    await page.goto(route); const card = page.locator('.surface-card').first(); await expect(card).toBeVisible();
+    await page.goto(route);
+    const card = page.locator('.surface-card').first();
+    await expect(card).toBeVisible();
     await moved('.surface-card');
   }
 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/projects');
-  const card = page.locator('.project-card').first(); await card.hover();
+  const card = page.locator('.project-card').first();
+  await card.hover();
   expect(await card.evaluate(e => getComputedStyle(e).animationName)).toBe('none');
   expect(await card.evaluate(e => getComputedStyle(e).translate)).toBe('none');
 });
@@ -133,10 +180,20 @@ test('illustration fills/ink/edges stay fixed across light/dark for every theme 
     await page.getByRole('button', { name: '选择主题色' }).click();
     await page.getByRole('radio', { name: preset.name }).check();
     await page.getByRole('button', { name: '完成', exact: true }).click();
-    const light = await page.locator('.art-tile').evaluateAll(tiles => tiles.map(tile => { const s = getComputedStyle(tile); return [s.backgroundColor, s.color, s.boxShadow]; }));
+    const light = await page.locator('.art-tile').evaluateAll(tiles =>
+      tiles.map(tile => {
+        const s = getComputedStyle(tile);
+        return [s.backgroundColor, s.color, s.boxShadow];
+      })
+    );
     await page.getByRole('button', { name: '切换深色模式' }).click();
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-    const dark = await page.locator('.art-tile').evaluateAll(tiles => tiles.map(tile => { const s = getComputedStyle(tile); return [s.backgroundColor, s.color, s.boxShadow]; }));
+    const dark = await page.locator('.art-tile').evaluateAll(tiles =>
+      tiles.map(tile => {
+        const s = getComputedStyle(tile);
+        return [s.backgroundColor, s.color, s.boxShadow];
+      })
+    );
     expect(dark).toEqual(light);
     await page.getByRole('button', { name: '切换浅色模式' }).click();
   }
@@ -145,9 +202,17 @@ test('illustration fills/ink/edges stay fixed across light/dark for every theme 
   await page.getByRole('button', { name: '选择主题色' }).click();
   await page.getByRole('radio', { name: '松石青' }).check();
   await page.getByRole('button', { name: '完成', exact: true }).click();
-  const lightSign = await page.locator('.construction-sign').evaluate(e => { const s = getComputedStyle(e); return [s.backgroundColor, s.color, s.boxShadow]; });
+  const lightSign = await page.locator('.construction-sign').evaluate(e => {
+    const s = getComputedStyle(e);
+    return [s.backgroundColor, s.color, s.boxShadow];
+  });
   await page.getByRole('button', { name: '切换深色模式' }).click();
-  expect(await page.locator('.construction-sign').evaluate(e => { const s = getComputedStyle(e); return [s.backgroundColor, s.color, s.boxShadow]; })).toEqual(lightSign);
+  expect(
+    await page.locator('.construction-sign').evaluate(e => {
+      const s = getComputedStyle(e);
+      return [s.backgroundColor, s.color, s.boxShadow];
+    })
+  ).toEqual(lightSign);
 });
 
 test('community pages fit narrow screens and pass light/dark accessibility checks', async ({ page }, info) => {
@@ -160,7 +225,13 @@ test('community pages fit narrow screens and pass light/dark accessibility check
       await page.goto(route);
       await expect(page.locator('main h1')).toBeVisible();
       if (route === '/' || route === '/people') await expect(page.locator('.person-book').first()).toBeVisible();
-      const overflow = await page.evaluate(() => ({ ok: document.documentElement.scrollWidth <= innerWidth, nodes: [...document.querySelectorAll('main *, header *, footer *')].filter(e => e.getBoundingClientRect().right > innerWidth + 1).slice(0, 10).map(e => `${e.tagName}.${e.className}`) }));
+      const overflow = await page.evaluate(() => ({
+        ok: document.documentElement.scrollWidth <= innerWidth,
+        nodes: [...document.querySelectorAll('main *, header *, footer *')]
+          .filter(e => e.getBoundingClientRect().right > innerWidth + 1)
+          .slice(0, 10)
+          .map(e => `${e.tagName}.${e.className}`)
+      }));
       expect(overflow.ok, `${route} at ${width}: ${overflow.nodes.join(', ')}`).toBe(true);
     }
   }
@@ -169,9 +240,12 @@ test('community pages fit narrow screens and pass light/dark accessibility check
     await page.goto(route);
     if (route === '/people') await expect(page.locator('.person-book')).toHaveCount(12);
     for (const mode of ['light', 'dark']) {
-      await page.evaluate(mode => document.documentElement.dataset.theme = mode, mode);
+      await page.evaluate(mode => (document.documentElement.dataset.theme = mode), mode);
       const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
-      expect(result.violations.filter(v => v.impact === 'serious' || v.impact === 'critical'), `${route}/${mode}`).toEqual([]);
+      expect(
+        result.violations.filter(v => v.impact === 'serious' || v.impact === 'critical'),
+        `${route}/${mode}`
+      ).toEqual([]);
     }
   }
 });

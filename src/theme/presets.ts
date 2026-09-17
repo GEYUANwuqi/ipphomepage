@@ -5,5 +5,5 @@ export const THEME_PRESETS = [
   { name: '松石青', seed: '#008577' },
   { name: '森林绿', seed: '#547536' },
   { name: '落日橙', seed: '#b65b26' },
-  { name: '玫瑰粉', seed: '#b44673' },
+  { name: '玫瑰粉', seed: '#b44673' }
 ] as const;
