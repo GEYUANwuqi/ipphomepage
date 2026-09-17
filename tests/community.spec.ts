@@ -231,6 +231,26 @@ test('illustration fills/ink/edges stay fixed across light/dark for every theme 
   ).toEqual(lightSign);
 });
 
+test('mobile bottom nav renders its icons and keeps the active label clear of the pill', async ({ page }, info) => {
+  test.skip(info.project.name !== 'desktop', 'Narrow-viewport matrix is checked once');
+  await page.setViewportSize({ width: 375, height: 800 });
+  await page.goto('/');
+  const links = page.locator('.main-nav a');
+  await expect(links).toHaveCount(5);
+  // 全局规则藏了导航图标，移动端要靠同特异度的规则盖回来；漏掉就整排图标消失。
+  await expect(links.locator('svg:not(.nav-caret)')).toHaveCount(5);
+  for (let i = 0; i < 5; i++) await expect(links.nth(i).locator('svg:not(.nav-caret)')).toBeVisible();
+  const active = page.locator('.main-nav a.active');
+  await expect(active.locator('span')).toBeVisible();
+  const geom = await active.evaluate(a => {
+    const pill = getComputedStyle(a, '::before');
+    const link = a.getBoundingClientRect();
+    const label = a.querySelector('span').getBoundingClientRect();
+    return { pillBottom: parseFloat(pill.top) + parseFloat(pill.height), labelTop: label.top - link.top };
+  });
+  expect(geom.labelTop).toBeGreaterThanOrEqual(geom.pillBottom);
+});
+
 test('community pages fit narrow screens and pass light/dark accessibility checks', async ({ page }, info) => {
   test.skip(info.project.name !== 'desktop', 'Viewport/accessibility matrix is checked once');
   test.setTimeout(90_000);
