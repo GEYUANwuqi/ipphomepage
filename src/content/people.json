@@ -1,3 +1,281 @@
 {
-  "people": []
+  "people": [
+    {
+      "id": "45dino",
+      "name": "45dino",
+      "avatar": "/images/people/45dino.webp",
+      "description": "token 用完了，没法 push。",
+      "title": "副社长",
+      "year": 2025,
+      "group": "core",
+      "featured": false,
+      "links": [
+        {
+          "label": "个人博客",
+          "url": "https://blog.45dino.me"
+        },
+        {
+          "label": "GitHub",
+          "url": "https://github.com/shmilyty"
+        }
+      ]
+    },
+    {
+      "id": "moonhalf383",
+      "name": "Moonhalf383",
+      "avatar": "/images/people/moonhalf383.webp",
+      "description": "全社最没办法之人，唯一的多肉死在了26年的夏天。",
+      "title": "社长",
+      "year": 2025,
+      "group": "core",
+      "featured": true,
+      "lead": true,
+      "links": [
+        {
+          "label": "个人博客",
+          "url": "https://www.yorozumoon.cn/zh-cn/"
+        },
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Moonhalf383"
+        }
+      ]
+    },
+    {
+      "id": "demoins",
+      "name": "Demoins",
+      "avatar": "/images/people/demoins.webp",
+      "description": "兼顾代码项目与人文阅读，既能蹲下来调试接口、梳理技术细节，也愿意花时间感受文字与艺术；\n好奇心宽泛，从学术期刊到文艺作品都愿意了解，追求高效清爽的沟通。",
+      "title": "小猫",
+      "year": 2025,
+      "group": "core",
+      "featured": false,
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Phenomenal2025"
+        }
+      ]
+    },
+    {
+      "id": "harkerhand",
+      "name": "何山",
+      "avatar": "/images/people/harkerhand.webp",
+      "description": "始终相信你可以做出正确的决定",
+      "title": "何老师",
+      "year": 2023,
+      "group": "core",
+      "featured": true,
+      "links": [
+        {
+          "label": "何处为山",
+          "url": "https://harkerhand.cn"
+        }
+      ]
+    },
+    {
+      "id": "huan-yp",
+      "name": "彭彭",
+      "avatar": "/images/people/huan-yp.webp",
+      "description": "喵喵喵",
+      "title": "大猫",
+      "year": 2024,
+      "group": "core",
+      "featured": true,
+      "links": [
+        {
+          "label": "个人博客",
+          "url": "https://huanyp.cn"
+        },
+        {
+          "label": "GitHub",
+          "url": "https://github.com/huan-yp"
+        }
+      ]
+    },
+    {
+      "id": "midairlogn",
+      "name": "Midairlogn",
+      "avatar": "/images/people/midairlogn.webp",
+      "description": "Just coding, and make myself better everyday.",
+      "title": "活跃成员",
+      "year": 2025,
+      "group": "core",
+      "featured": false,
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/midairlogn"
+        }
+      ]
+    },
+    {
+      "id": "jiejieojoyuyu",
+      "name": "jiejieojoyuyu",
+      "avatar": "/images/people/jiejieojoyuyu.webp",
+      "description": "所谓人类，就是连区区十分钟都等不了的啊!",
+      "title": "活跃成员",
+      "year": 2023,
+      "group": "core",
+      "featured": false,
+      "links": [
+        {
+          "label": "个人主页",
+          "url": "https://jiejieojoyuyu.github.io/"
+        }
+      ]
+    },
+    {
+      "id": "hahavguoqu",
+      "name": "兰斤斤",
+      "avatar": "/images/people/hahavguoqu.webp",
+      "description": "亲爱的山雀，请将我的箭，我的花，与我的爱，带给那孑然独行的旅人",
+      "title": "活跃成员",
+      "year": 2024,
+      "group": "core",
+      "featured": false,
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/hahavguoqu"
+        }
+      ]
+    },
+    {
+      "id": "waterdr1p",
+      "name": "水滴",
+      "avatar": "/images/people/waterdr1p.webp",
+      "description": "我是水滴-水中贵族-百岁山。水滴是刘慈欣科幻小说《三体II·黑暗森林》中三体文明制作的强互作用力宇宙探测器，别称圣母的眼泪、三体探测器。其外壳由强互作用力材料（SIM）构成，强度相当于太阳系最坚硬材料的百倍以上，表面绝对光滑且电磁波反射率达100%，温度接近绝对零度，最高飞行速度达 25,000 km/s，可进行违反经典物理规律的锐角转向。",
+      "title": "活跃成员",
+      "year": 2025,
+      "group": "core",
+      "featured": false,
+      "links": [
+        {
+          "label": "个人博客",
+          "url": "https://waterdr1p.com/"
+        },
+        {
+          "label": "GitHub",
+          "url": "https://github.com/KAI-SHUNG"
+        }
+      ]
+    },
+    {
+      "id": "marchfisher",
+      "name": "过期的后悔药",
+      "avatar": "/images/people/marchfisher.webp",
+      "description": "这里有一段非常精彩的个人描述，只要你是这么觉得的",
+      "title": "活跃成员",
+      "year": 2025,
+      "group": "core",
+      "featured": false,
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/MarchFisher"
+        }
+      ]
+    },
+    {
+      "id": "neilwind",
+      "name": "风之城",
+      "avatar": "/images/people/neilwind.webp",
+      "description": "这个人无所事事",
+      "title": "活跃成员",
+      "year": 2024,
+      "group": "core",
+      "featured": false,
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Neilwind"
+        }
+      ]
+    },
+    {
+      "id": "dmajor",
+      "name": "Dmajor",
+      "avatar": "/images/people/dmajor.webp",
+      "description": "（已深度思考0秒）邦↓邦↓邦↓邦↑",
+      "title": "前社长",
+      "year": 2024,
+      "group": "core",
+      "featured": false,
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Davidwadesmith"
+        }
+      ]
+    },
+    {
+      "id": "moonming-ely",
+      "name": "苏羽",
+      "avatar": "/images/people/moonming-ely.webp",
+      "description": "写代码是因为爱，写到世界充满爱♪",
+      "title": "活跃成员",
+      "year": 2025,
+      "group": "core",
+      "featured": false,
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/MoonMing-ely"
+        }
+      ]
+    },
+    {
+      "id": "geyuanwuqi",
+      "name": "格缘",
+      "avatar": "/images/people/geyuanwuqi.webp",
+      "description": "咪喵咪咪喵咪咪喵咪喵咪喵咪咪咪咪咪喵咪喵咪咪咪咪咪喵咪咪咪咪喵喵咪喵咪咪喵喵咪咪咪喵咪喵咪喵咪喵咪喵咪咪咪咪喵咪咪咪喵咪喵喵咪喵咪喵咪咪咪喵喵喵咪喵咪咪咪喵咪喵咪喵咪喵喵咪咪喵咪喵咪喵咪喵咪喵咪喵咪咪咪咪咪喵咪喵咪咪喵喵喵咪咪喵喵喵咪喵喵喵咪喵喵喵咪喵咪喵咪喵喵喵咪咪咪喵咪喵喵咪喵咪咪喵咪咪喵喵喵咪喵咪咪咪喵咪咪咪咪咪喵喵喵咪咪喵咪喵喵咪喵咪咪喵喵咪喵咪咪咪咪咪喵咪喵喵喵咪咪喵喵咪喵咪咪喵喵喵喵咪喵咪咪喵喵喵咪咪喵喵喵咪咪喵咪咪喵咪喵喵喵喵咪喵喵咪喵咪咪咪咪咪喵喵喵咪咪喵喵喵喵咪咪喵喵喵咪咪喵咪咪咪喵咪喵喵喵喵喵咪咪喵咪喵喵咪咪咪喵咪咪咪喵咪喵喵咪咪咪咪喵喵喵咪喵咪咪咪喵咪喵喵喵喵喵喵喵咪咪喵喵咪咪喵喵喵喵咪咪喵咪喵喵咪咪咪喵喵喵喵喵咪喵咪咪喵咪喵喵喵喵咪喵咪咪咪喵咪喵咪喵喵喵喵喵咪咪喵喵喵咪喵咪咪喵咪喵喵咪咪咪咪喵咪咪咪咪咪喵喵喵咪喵咪咪咪喵咪喵咪喵喵喵喵喵咪喵喵咪喵咪咪喵喵喵咪咪喵喵咪喵咪咪喵喵咪咪咪喵咪咪咪喵喵喵咪喵喵喵咪咪喵咪咪喵咪喵喵喵喵咪喵喵咪喵咪咪咪咪咪喵喵喵咪咪喵喵喵喵咪咪喵喵喵咪咪喵咪咪喵喵喵喵喵喵喵喵咪咪喵喵喵喵咪咪喵喵咪喵咪喵咪咪咪咪喵咪咪喵喵喵咪咪喵咪喵喵咪喵喵喵喵喵咪喵咪咪咪喵咪咪咪喵喵喵咪喵咪咪喵喵咪咪喵咪喵喵喵喵咪喵喵咪咪喵咪咪咪喵咪喵喵喵咪咪咪喵咪咪咪咪咪喵喵喵咪咪喵咪咪喵咪喵喵喵喵咪喵喵咪喵咪咪咪咪咪喵喵喵咪咪喵咪喵喵咪喵咪咪喵咪喵喵咪喵喵喵喵咪喵咪咪喵咪喵喵咪咪咪咪喵咪咪咪咪咪喵喵喵咪咪喵喵咪喵咪咪咪喵咪咪咪喵咪咪喵咪咪咪喵喵喵喵咪咪喵喵咪喵咪咪喵喵咪咪咪喵咪喵咪喵喵喵喵喵喵喵咪咪喵喵咪喵咪喵咪咪咪咪咪喵咪喵喵喵喵咪咪喵喵喵咪咪喵喵喵喵咪喵喵喵喵咪咪喵咪咪喵喵咪咪咪咪咪喵咪喵喵咪咪咪咪喵咪咪咪咪咪喵喵喵咪咪喵喵咪喵咪咪咪喵咪咪咪喵咪咪喵咪喵喵咪喵喵喵咪喵咪咪咪喵咪喵咪喵喵喵咪喵咪喵喵喵咪咪咪喵喵喵咪咪喵咪咪喵咪喵喵喵咪咪喵喵咪咪喵喵喵喵喵喵喵喵咪咪喵咪喵喵咪咪咪喵喵喵喵喵咪喵咪喵喵喵喵喵喵喵咪咪喵咪咪喵咪喵喵喵咪喵喵喵咪喵咪咪喵咪喵喵喵喵咪咪喵喵喵喵咪喵咪咪喵喵喵喵咪喵喵咪咪咪咪喵喵喵咪咪喵喵咪喵咪咪咪喵咪咪咪喵咪咪喵咪咪咪喵喵喵喵咪咪喵咪咪喵咪喵喵喵咪咪咪喵咪喵喵喵咪喵咪喵喵喵咪咪喵喵喵喵咪咪咪喵咪咪喵喵咪喵咪喵咪咪喵喵喵喵咪喵咪咪咪喵咪喵喵咪喵咪喵喵咪喵喵咪喵喵喵咪咪喵咪喵喵喵咪咪咪喵咪咪咪咪咪咪咪喵咪咪咪咪咪喵喵喵咪咪喵喵咪喵咪喵喵咪咪喵喵喵咪喵咪咪喵咪喵喵喵喵咪喵咪咪咪喵咪喵喵喵喵咪喵喵咪喵咪咪喵喵咪喵喵喵咪咪喵喵咪喵咪咪喵咪喵喵喵喵咪喵咪咪咪咪咪喵喵喵咪咪喵喵咪喵咪喵喵咪咪喵喵喵咪咪喵咪喵咪喵喵喵喵咪喵咪咪喵喵咪咪咪咪咪咪咪喵咪咪咪喵咪咪喵喵喵喵咪咪喵咪咪喵咪喵喵喵咪咪咪喵咪喵咪喵喵咪喵喵喵喵咪咪喵咪咪喵咪喵喵喵咪咪喵喵咪咪咪喵咪喵喵喵喵喵咪咪喵咪咪喵咪喵喵喵咪喵咪喵咪喵喵喵咪喵咪咪咪喵咪喵喵咪咪咪咪喵咪咪咪咪咪咪喵喵咪喵咪咪喵咪喵喵喵咪咪咪咪咪喵喵喵咪咪咪咪喵喵喵咪咪喵喵喵喵咪喵咪喵喵喵咪喵咪咪喵咪喵喵喵喵喵喵咪咪喵喵咪喵咪喵喵咪咪喵喵喵咪咪喵咪喵咪喵喵喵喵咪咪喵喵咪喵咪咪喵喵喵咪咪喵咪咪咪咪咪咪咪喵喵喵咪咪喵喵喵喵咪咪咪咪咪喵喵喵咪咪咪咪咪喵咪喵喵喵咪咪喵咪咪喵咪喵喵喵咪咪喵喵咪咪咪喵咪喵喵喵喵喵咪咪喵咪咪喵咪喵喵喵咪喵咪喵咪喵喵喵咪喵咪咪咪喵咪喵咪咪咪喵喵喵咪咪喵咪喵喵咪喵喵喵咪喵咪喵咪咪喵咪喵咪咪喵喵喵咪喵咪咪咪喵咪喵咪喵喵喵喵喵咪喵咪咪喵咪喵咪咪喵咪喵咪咪喵咪咪喵咪喵喵咪咪咪咪喵咪咪咪咪咪咪喵咪喵咪咪咪咪咪喵喵喵喵咪咪喵咪喵喵喵咪喵咪咪咪喵喵咪喵咪咪咪咪喵喵咪喵喵喵喵咪喵喵咪喵喵喵咪喵喵喵咪咪喵喵喵喵咪咪喵咪喵咪咪喵咪喵咪喵咪咪咪喵喵喵咪咪喵喵咪喵咪咪咪喵咪咪咪喵咪喵喵咪喵喵喵咪咪喵咪喵喵咪咪咪咪喵咪咪咪咪咪咪喵咪喵咪咪喵咪咪喵喵喵咪喵咪喵咪喵喵喵咪咪喵喵咪喵喵喵咪喵咪咪喵喵喵咪咪喵咪咪喵咪喵喵喵喵咪喵喵咪咪喵咪咪喵喵喵喵喵咪喵咪咪喵喵咪喵咪喵咪喵咪喵咪咪咪喵喵咪咪喵喵喵咪咪喵咪喵喵咪咪咪喵喵咪喵喵咪喵咪咪咪咪喵喵喵喵咪喵咪咪喵喵咪咪喵咪喵咪喵喵咪喵喵喵喵喵喵喵喵喵咪咪喵喵咪喵咪咪喵喵喵咪咪喵咪咪喵喵喵喵喵喵喵喵咪咪喵喵喵喵咪喵喵喵咪喵喵喵咪喵咪喵喵咪喵喵喵喵咪喵咪咪咪喵咪喵喵咪喵咪咪喵咪喵喵喵咪咪喵喵喵喵咪咪喵咪咪喵咪喵喵喵咪咪咪喵咪喵咪喵喵咪喵咪咪喵咪喵喵咪咪咪咪喵咪咪咪咪咪喵喵喵咪咪喵咪喵喵咪咪喵咪喵喵咪喵咪咪喵喵喵咪咪喵喵喵咪咪喵咪喵喵咪喵咪咪喵咪喵喵咪喵喵喵喵咪喵喵喵喵咪咪喵喵咪喵咪喵咪喵喵喵喵喵咪咪喵喵咪喵喵喵喵喵咪咪喵咪喵喵咪咪喵喵咪喵喵喵咪喵咪咪咪喵咪咪咪喵咪喵咪咪咪咪喵喵咪咪咪喵咪咪喵喵喵咪喵咪喵咪喵喵喵咪咪喵喵咪喵喵咪喵咪咪咪咪喵喵咪喵咪咪喵咪咪喵咪喵咪咪喵咪咪喵咪喵喵咪咪咪咪喵咪咪咪咪咪喵喵喵咪咪喵咪喵喵咪咪喵咪喵喵咪喵咪咪喵喵喵咪咪喵喵喵咪咪喵喵喵喵咪咪咪喵咪咪咪喵咪喵喵咪咪咪喵喵喵喵咪咪喵喵咪喵咪咪咪喵咪喵咪喵咪咪咪喵咪喵咪喵喵喵咪咪喵咪喵喵咪喵喵咪喵喵喵喵咪喵喵咪咪喵咪喵喵喵咪咪喵喵咪喵咪咪喵喵喵咪咪喵咪咪咪喵咪咪喵喵喵喵咪咪喵喵喵喵咪咪喵喵咪喵咪喵咪咪咪咪喵咪咪喵喵喵咪喵咪咪咪喵咪喵喵喵喵咪喵喵咪喵咪喵喵喵咪喵喵喵咪咪喵咪喵喵咪喵咪喵喵咪喵喵咪咪喵咪咪咪咪喵喵喵咪咪喵喵咪喵咪咪咪喵咪喵喵喵咪咪咪咪喵喵咪喵喵喵咪咪喵咪咪喵咪喵喵喵咪喵咪喵咪咪咪咪喵喵咪喵喵喵咪喵咪咪喵喵咪咪咪咪喵喵喵喵咪咪咪喵喵咪喵喵喵喵咪喵咪咪喵喵咪咪咪咪咪咪咪喵咪喵咪咪咪咪咪咪咪喵咪喵喵咪咪咪咪喵咪咪咪咪咪喵喵喵咪咪喵喵咪喵咪咪喵咪咪喵喵喵咪咪咪咪喵咪喵喵喵喵咪喵咪咪喵喵咪咪喵咪喵咪喵喵咪喵喵喵喵喵喵喵喵喵咪咪喵咪喵喵咪喵喵咪喵喵喵喵咪喵咪咪喵咪喵喵喵喵咪咪喵喵喵喵咪喵咪喵咪咪咪喵咪咪咪喵咪喵喵喵喵喵咪喵咪咪喵喵咪咪喵咪喵喵喵喵咪喵咪喵喵喵咪喵喵喵咪喵咪咪喵喵咪喵咪咪咪喵咪喵咪咪喵喵咪咪咪咪咪喵咪喵喵喵咪咪咪喵咪咪咪咪咪喵喵喵咪咪喵喵咪喵咪咪喵咪喵喵喵喵咪喵咪咪咪喵咪喵喵喵咪咪喵喵喵喵咪咪咪咪喵咪咪喵咪喵喵咪喵喵咪喵喵喵咪咪喵喵喵喵咪咪喵喵喵咪咪喵咪咪咪喵咪喵喵喵喵喵咪咪喵咪喵喵咪咪咪喵咪咪咪喵咪喵喵咪咪咪咪喵喵喵咪喵咪咪咪喵咪喵喵喵喵喵喵喵咪咪喵喵咪咪喵喵喵喵咪喵咪咪喵喵咪咪咪咪喵喵喵喵咪咪咪喵喵咪咪喵喵喵咪咪喵咪咪喵咪喵喵喵咪喵咪喵咪咪咪咪喵喵咪咪咪喵咪喵喵咪咪咪咪喵咪咪咪咪咪喵喵喵咪咪喵咪咪喵咪喵喵喵咪咪咪喵咪咪咪喵喵咪喵喵喵喵咪咪喵咪喵喵咪喵咪咪喵喵咪喵咪喵咪喵咪咪咪喵喵喵咪咪喵喵咪喵咪咪喵喵喵咪喵喵咪喵咪咪喵咪喵喵喵喵咪咪喵喵咪喵咪咪咪喵咪咪咪喵咪咪喵咪咪咪喵喵喵喵咪咪喵喵喵喵咪咪喵喵咪喵咪喵咪咪咪咪喵咪咪咪喵喵咪咪喵喵喵咪喵喵咪喵咪咪喵咪喵喵喵咪喵咪咪咪喵喵咪喵咪咪咪咪喵喵喵咪喵咪喵咪喵喵咪咪咪喵咪喵喵喵咪喵咪咪喵喵咪喵咪咪咪咪喵喵咪喵喵咪喵咪喵喵喵喵咪咪喵喵咪喵咪咪咪喵咪咪咪喵咪咪喵咪喵喵咪喵喵喵咪喵咪咪咪喵咪咪咪咪咪咪咪喵咪咪咪咪喵咪喵喵喵喵咪咪喵咪喵喵咪咪咪喵喵咪喵喵咪咪喵喵咪喵咪喵喵喵咪咪喵咪喵喵咪喵咪喵喵喵咪喵咪喵咪咪咪喵咪喵喵喵咪咪喵喵喵喵咪咪喵喵喵咪咪喵咪咪咪喵咪喵喵喵喵喵咪咪喵喵喵喵咪咪喵喵喵咪咪喵咪咪咪喵咪喵喵喵喵喵咪咪喵咪喵喵咪咪喵咪咪咪咪喵咪喵咪咪喵喵喵咪喵喵喵喵喵喵咪",
+      "title": "Ipp驻外大使",
+      "year": 2026,
+      "group": "core",
+      "featured": false,
+      "links": [
+        {
+          "label": "个人博客",
+          "url": "https://wuqichan.cn"
+        },
+        {
+          "label": "GitHub",
+          "url": "https://github.com/GEYUANwuqi"
+        }
+      ]
+    },
+    {
+      "id": "twilight0702",
+      "name": "于悦",
+      "avatar": "/images/people/twilight0702.webp",
+      "description": "ipp 周边主理人（嗯",
+      "title": "活跃成员",
+      "year": 2023,
+      "group": "core",
+      "featured": false,
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/twilight0702"
+        }
+      ]
+    },
+    {
+      "id": "sakimidare",
+      "name": "SakiMidare",
+      "avatar": "/images/people/sakimidare.webp",
+      "description": "我们永远无法抛弃必要的精确性。",
+      "title": "活跃成员",
+      "year": 2025,
+      "group": "core",
+      "featured": false,
+      "links": [
+        {
+          "label": "个人博客",
+          "url": "https://sakimidare.top"
+        }
+      ]
+    }
+  ]
 }
