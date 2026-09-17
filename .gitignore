@@ -10,3 +10,7 @@ playwright-report/
 *.log
 # Machine-specific, explicitly trusted development origins
 dev.local.json
+
+# Throwaway Playwright configs/scripts and the screenshots they produce
+*.tmp.ts
+shot-*.png
