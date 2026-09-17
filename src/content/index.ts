@@ -6,7 +6,8 @@ import type { ClubEvent, Person, Project } from '../../shared/content';
 export const realPeople = (peopleFile.people as Person[]).map(person => ({
   ...person,
   links: person.links ?? [],
-  featured: person.featured ?? false
+  featured: person.featured ?? false,
+  lead: person.lead ?? false
 }));
 export const projects = (projectFile.projects as Project[]).map(project => ({
   ...project,

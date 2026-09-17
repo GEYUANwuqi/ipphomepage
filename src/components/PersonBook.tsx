@@ -6,7 +6,7 @@ function Avatar({ person }: { person: Person }) {
   const [failed, setFailed] = useState(false);
   useEffect(() => setFailed(false), [person.avatar]);
   return (
-    <span className="person-avatar">
+    <span className={`person-avatar ${person.lead ? 'lead-avatar' : ''}`}>
       {failed ? (
         <span className="avatar-fallback" aria-hidden="true">
           {[...person.name.trim()][0] ?? '?'}

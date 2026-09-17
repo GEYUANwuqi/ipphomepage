@@ -2,6 +2,12 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { THEME_PRESETS } from '../src/theme/presets';
 
+// 这些用例断言的是版式与交互，不是名单内容，所以统一跑在固定的演示成员上，
+// 真实 people.json 增删成员不会让它们变红。见 src/content/PeopleProvider.tsx。
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('ipp:demo-people', '1'));
+});
+
 test('member books filter by group/year/search and expose full profiles and bookmark links', async ({ page }, info) => {
   await page.goto('/people');
   await expect(page.locator('.person-book')).toHaveCount(12);
@@ -10,6 +16,16 @@ test('member books filter by group/year/search and expose full profiles and book
   await expect(page.locator('.demo-people-notice')).toContainText('均为虚构');
   const book = page.locator('[data-person-id="dev-person-01"]');
   await expect(book.locator('.person-bookmark')).toHaveCount(4);
+  await expect(page.locator('.person-content .person-avatar.lead-avatar')).toHaveCount(1);
+  await expect(page.locator('.person-book').first()).toHaveAttribute('data-person-id', 'dev-person-01');
+  expect(await book.locator('.person-content .person-avatar').evaluate(e => getComputedStyle(e).borderRadius)).toBe(
+    '4px'
+  );
+  expect(
+    await page
+      .locator('[data-person-id="dev-person-02"] .person-content .person-avatar')
+      .evaluate(e => getComputedStyle(e).borderRadius)
+  ).toBe('20px');
   await book.getByRole('button', { name: /全部4条链接/ }).click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
@@ -213,6 +229,26 @@ test('illustration fills/ink/edges stay fixed across light/dark for every theme 
       return [s.backgroundColor, s.color, s.boxShadow];
     })
   ).toEqual(lightSign);
+});
+
+test('mobile bottom nav renders its icons and keeps the active label clear of the pill', async ({ page }, info) => {
+  test.skip(info.project.name !== 'desktop', 'Narrow-viewport matrix is checked once');
+  await page.setViewportSize({ width: 375, height: 800 });
+  await page.goto('/');
+  const links = page.locator('.main-nav a');
+  await expect(links).toHaveCount(5);
+  // 全局规则藏了导航图标，移动端要靠同特异度的规则盖回来；漏掉就整排图标消失。
+  await expect(links.locator('svg:not(.nav-caret)')).toHaveCount(5);
+  for (let i = 0; i < 5; i++) await expect(links.nth(i).locator('svg:not(.nav-caret)')).toBeVisible();
+  const active = page.locator('.main-nav a.active');
+  await expect(active.locator('span')).toBeVisible();
+  const geom = await active.evaluate(a => {
+    const pill = getComputedStyle(a, '::before');
+    const link = a.getBoundingClientRect();
+    const label = a.querySelector('span').getBoundingClientRect();
+    return { pillBottom: parseFloat(pill.top) + parseFloat(pill.height), labelTop: label.top - link.top };
+  });
+  expect(geom.labelTop).toBeGreaterThanOrEqual(geom.pillBottom);
 });
 
 test('community pages fit narrow screens and pass light/dark accessibility checks', async ({ page }, info) => {

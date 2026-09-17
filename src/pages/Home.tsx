@@ -94,7 +94,10 @@ function PlusArt() {
 }
 export function Home() {
   const { people, isDemo } = usePeople();
-  const featuredPeople = people.filter(p => p.featured).slice(0, 4);
+  const featuredPeople = people
+    .filter(p => p.featured)
+    .sort((a, b) => Number(b.lead) - Number(a.lead))
+    .slice(0, 4);
   const featuredProjects = projects.filter(p => p.featured).slice(0, 3);
   return (
     <div className="home page">

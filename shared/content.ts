@@ -38,6 +38,7 @@ export const personSchema = z
     year: z.number().int().min(1900).max(2100),
     group: z.enum(['core', 'supporter']),
     featured: z.boolean().default(false),
+    lead: z.boolean().default(false),
     links
   })
   .strict();
@@ -93,7 +94,18 @@ function unique<T extends { id: string }>(items: T[], ctx: z.RefinementCtx) {
     seen.add(item.id);
   });
 }
-export const peopleFileSchema = z.object({ people: z.array(personSchema).superRefine(unique) }).strict();
+export const peopleFileSchema = z
+  .object({
+    people: z.array(personSchema).superRefine((people, ctx) => {
+      unique(people, ctx);
+      const first = people.findIndex(p => p.lead);
+      people.forEach((person, i) => {
+        if (person.lead && i !== first)
+          ctx.addIssue({ code: 'custom', path: [i, 'lead'], message: 'lead 标记现任社长，只能有一位' });
+      });
+    })
+  })
+  .strict();
 export const projectsFileSchema = z.object({ projects: z.array(projectSchema).superRefine(unique) }).strict();
 export const eventsFileSchema = z.object({ events: z.array(eventSchema).superRefine(unique) }).strict();
 export type Person = z.infer<typeof personSchema>;

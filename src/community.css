@@ -347,6 +347,10 @@
   display: grid;
   place-items: center;
 }
+/* Sitting president: square avatar, so the lead reads differently from everyone else at a glance. Gold is a hover-only glow, see motion.css. */
+.person-avatar.lead-avatar {
+  border-radius: 4px;
+}
 .person-content h3 {
   margin: 22px 0 10px;
   font-size: 20px;
@@ -1126,12 +1130,20 @@
       background-color var(--motion-short) var(--motion-standard),
       scale var(--motion-medium) var(--motion-spring);
   }
-  .main-nav a > svg {
+  /* 顶部那条 .main-nav a > svg:not(.nav-caret) 把导航图标全局藏了，特异度 (0,2,2)。
+     媒体查询不加特异度，所以这里必须用同样形状的选择器才盖得住——写成
+     .main-nav a > svg 只有 (0,1,2)，图标会一直是 display:none。 */
+  .main-nav a > svg:not(.nav-caret) {
     display: block;
     position: relative;
   }
   .main-nav a > svg.nav-caret {
     display: none;
+  }
+  /* 激活态药丸是绝对定位，会盖在未定位的行内文字上；把文字抬进同一层，
+     这样底部导航的可读性不再依赖「图标恰好把文字顶出药丸」这种巧合。 */
+  .main-nav a > span {
+    position: relative;
   }
   .main-nav a.active {
     background: transparent;

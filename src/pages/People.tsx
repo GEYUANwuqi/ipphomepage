@@ -10,7 +10,7 @@ export function People() {
   const [search, setSearch] = useState('');
   const [group, setGroup] = useState('all');
   const [year, setYear] = useState('all');
-  const years = useMemo(() => [...new Set(people.map(p => p.year))].sort((a, b) => b - a), [people]);
+  const years = useMemo(() => [...new Set(people.map(p => p.year))].sort((a, b) => a - b), [people]);
   const filtered = people
     .filter(
       p =>
@@ -18,13 +18,13 @@ export function People() {
         (year === 'all' || p.year === Number(year)) &&
         `${p.name} ${p.description} ${p.title}`.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase())
     )
-    .sort((a, b) => b.year - a.year);
+    .sort((a, b) => Number(b.lead) - Number(a.lead) || a.year - b.year);
   return (
     <div className="page people-page">
       <div className="collection-hero people-hero">
         <div>
           <h1>成员与支持者</h1>
-          <p>这里收录参与创造、分享和支持 I++ 的人，按年级排列。</p>
+          <p>这里收录参与创造、分享和支持 I++ 的人。</p>
         </div>
         <aside className="mascot-placeholder" aria-labelledby="mascot-placeholder-title">
           <div className="construction-sign">
