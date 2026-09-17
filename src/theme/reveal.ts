@@ -1,4 +1,7 @@
-export interface RevealOrigin { x: number; y: number; }
+export interface RevealOrigin {
+  x: number;
+  y: number;
+}
 export function circleGeometry(point: RevealOrigin, width: number, height: number) {
   const x = Math.min(Math.max(point.x, 0), width);
   const y = Math.min(Math.max(point.y, 0), height);
@@ -30,13 +33,23 @@ export async function revealTheme(commit: () => void, point: RevealOrigin) {
     delete root.dataset.themeTransition;
     root.style.removeProperty('--theme-reveal-x');
     root.style.removeProperty('--theme-reveal-y');
-    active = undefined; animation = undefined;
+    active = undefined;
+    animation = undefined;
     update(); // No cloned DOM, duplicated form state, or blocking overlay as a fallback.
     return;
   }
   // Settle route entrance before snapshotting, without touching inputs or remounting content.
-  document.getElementById('main')?.getAnimations().forEach(a => a.finish());
-  const entranceNames = new Set(['content-arrive', 'tile-arrive', 'dialog-arrive', 'backdrop-arrive', 'mode-symbol-in']);
+  document
+    .getElementById('main')
+    ?.getAnimations()
+    .forEach(a => a.finish());
+  const entranceNames = new Set([
+    'content-arrive',
+    'tile-arrive',
+    'dialog-arrive',
+    'backdrop-arrive',
+    'mode-symbol-in'
+  ]);
   document.getAnimations().forEach(a => {
     if ('animationName' in a && entranceNames.has(String(a.animationName))) a.finish();
   });
@@ -51,13 +64,24 @@ export async function revealTheme(commit: () => void, point: RevealOrigin) {
     // Install a rejection handler immediately, even if ready rejects on a hidden document.
     const finished = transition.finished.catch(() => {});
     await transition.ready;
-    if (ticket !== generation) { transition.skipTransition(); return; }
-    animation = root.animate({ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] }, {
-      duration: 680, easing: 'cubic-bezier(0.2, 0, 0, 1)',
-      pseudoElement: '::view-transition-new(root)', fill: 'forwards',
-    });
+    if (ticket !== generation) {
+      transition.skipTransition();
+      return;
+    }
+    animation = root.animate(
+      { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+      {
+        duration: 680,
+        easing: 'cubic-bezier(0.2, 0, 0, 1)',
+        pseudoElement: '::view-transition-new(root)',
+        fill: 'forwards'
+      }
+    );
     // Some browsers expose snapshots but cannot animate a pseudo-element through WAAPI.
-    if (!(animation.effect instanceof KeyframeEffect) || animation.effect.pseudoElement !== '::view-transition-new(root)') {
+    if (
+      !(animation.effect instanceof KeyframeEffect) ||
+      animation.effect.pseudoElement !== '::view-transition-new(root)'
+    ) {
       animation.cancel();
       transition.skipTransition();
       await finished;
@@ -73,7 +97,8 @@ export async function revealTheme(commit: () => void, point: RevealOrigin) {
       delete root.dataset.themeTransition;
       root.style.removeProperty('--theme-reveal-x');
       root.style.removeProperty('--theme-reveal-y');
-      active = undefined; animation = undefined;
+      active = undefined;
+      animation = undefined;
     }
   }
 }

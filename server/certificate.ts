@@ -1,7 +1,8 @@
 import sharp from 'sharp';
 import QRCode from 'qrcode';
 import type { Result } from '../shared/types.ts';
-const escape = (s: string) => s.replace(/[<>&"']/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&apos;' })[c]!);
+const escape = (s: string) =>
+  s.replace(/[<>&"']/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&apos;' })[c]!);
 export async function certificatePng(result: Result, origin: string) {
   const url = result.certificateId ? `${origin}/verify/${result.certificateId}` : `${origin}/assessment`;
   const qr = await QRCode.toDataURL(url, { margin: 1, width: 180, color: { dark: '#302546', light: '#ffffff' } });

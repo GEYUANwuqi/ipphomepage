@@ -7,20 +7,32 @@ async function settled(page: Page) {
   await expect(page.locator('html')).not.toHaveAttribute('data-theme-transition', 'reveal');
 }
 async function pixel(image: Buffer, x: number, y: number) {
-  return [...await sharp(image).extract({ left: Math.round(x), top: Math.round(y), width: 1, height: 1 }).removeAlpha().raw().toBuffer()];
+  return [
+    ...(await sharp(image)
+      .extract({ left: Math.round(x), top: Math.round(y), width: 1, height: 1 })
+      .removeAlpha()
+      .raw()
+      .toBuffer())
+  ];
 }
 
-test('preset and custom HCT palettes persist through routes/reloads; picker works on mobile', async ({ page }, info) => {
+test('preset and custom HCT palettes persist through routes/reloads; picker works on mobile', async ({
+  page
+}, info) => {
   await page.goto('/');
   await page.getByRole('button', { name: '选择主题色' }).click();
   const dialog = page.getByRole('dialog', { name: '主题设置' });
   await expect(dialog).toBeVisible();
   await expect(page.getByRole('radio', { name: '鸢尾紫' })).toBeChecked();
-  const before = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--md-sys-color-primary'));
+  const before = await page.evaluate(() =>
+    getComputedStyle(document.documentElement).getPropertyValue('--md-sys-color-primary')
+  );
   await page.getByRole('radio', { name: '松石青' }).check();
   await expect(page.locator('html')).toHaveAttribute('data-seed', '#008577');
   await settled(page);
-  const after = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--md-sys-color-primary'));
+  const after = await page.evaluate(() =>
+    getComputedStyle(document.documentElement).getPropertyValue('--md-sys-color-primary')
+  );
   expect(after).not.toBe(before);
   await page.getByRole('textbox', { name: '自定义主题色', exact: true }).fill('#zzzzzz');
   await page.getByRole('button', { name: '应用', exact: true }).click();
@@ -54,10 +66,11 @@ test('circular reveal keeps old pixels outside and new pixels inside, in both di
   test.skip(info.project.name !== 'desktop', 'Root snapshot pixel geometry is checked once at DPR 1');
   await page.addInitScript(() => {
     const original = Element.prototype.animate;
-    Element.prototype.animate = function(keyframes, options) {
+    Element.prototype.animate = function (keyframes, options) {
       const animation = original.call(this, keyframes, options);
       if (typeof options === 'object' && options.pseudoElement === '::view-transition-new(root)') {
-        animation.pause(); animation.currentTime = 100;
+        animation.pause();
+        animation.currentTime = 100;
         (window as any).themeAnimation = animation;
       }
       return animation;
@@ -67,10 +80,13 @@ test('circular reveal keeps old pixels outside and new pixels inside, in both di
   for (const [i, mode] of ['深色', '浅色'].entries()) {
     const button = page.getByRole('button', { name: `切换${mode}模式` });
     const bounds = (await button.boundingBox())!;
-    const x = bounds.x + bounds.width / 2, y = bounds.y + bounds.height / 2;
+    const x = bounds.x + bounds.width / 2,
+      y = bounds.y + bounds.height / 2;
     const inside = { x, y: bounds.y + bounds.height + 16 };
     const before = await page.screenshot();
-    await page.evaluate(() => { (window as any).themeAnimation = null; });
+    await page.evaluate(() => {
+      (window as any).themeAnimation = null;
+    });
     await button.click();
     await page.waitForFunction(() => !!(window as any).themeAnimation);
     const keyframes = await page.evaluate(() => (window as any).themeAnimation.effect.getKeyframes());
@@ -86,12 +102,17 @@ test('circular reveal keeps old pixels outside and new pixels inside, in both di
   }
 });
 
-test('hover has spatial feedback, parallax resets, and route changes animate without remount tricks', async ({ page }, info) => {
+test('hover has spatial feedback, parallax resets, and route changes animate without remount tricks', async ({
+  page
+}, info) => {
   test.skip(info.project.name !== 'desktop', 'Hover requires a fine pointer');
   await page.addInitScript(() => {
     const original = Element.prototype.animate;
-    Element.prototype.animate = function(keyframes, options) {
-      if (this.id === 'main') { (window as any).routeAnimationFrames = keyframes; (window as any).routeAnimationOptions = options; }
+    Element.prototype.animate = function (keyframes, options) {
+      if (this.id === 'main') {
+        (window as any).routeAnimationFrames = keyframes;
+        (window as any).routeAnimationOptions = options;
+      }
       return original.call(this, keyframes, options);
     };
   });
@@ -100,24 +121,34 @@ test('hover has spatial feedback, parallax resets, and route changes animate wit
   await cta.hover();
   await expect.poll(() => cta.evaluate(e => getComputedStyle(e).translate)).not.toBe('none');
   await page.locator('#hero-title').hover();
-  expect(await page.locator('.title-letter').first().evaluate(e => getComputedStyle(e).animationName)).toBe('title-hop');
+  expect(
+    await page
+      .locator('.title-letter')
+      .first()
+      .evaluate(e => getComputedStyle(e).animationName)
+  ).toBe('title-hop');
   await page.locator('.blog-card').hover();
   await expect.poll(() => page.locator('.book-page').evaluate(e => getComputedStyle(e).rotate)).not.toBe('none');
   const art = page.locator('.hero-art');
   await art.scrollIntoViewIfNeeded();
   const bounds = (await art.boundingBox())!;
-  await page.mouse.move(bounds.x + bounds.width * .7, bounds.y + bounds.height * .4);
+  await page.mouse.move(bounds.x + bounds.width * 0.7, bounds.y + bounds.height * 0.4);
   await expect.poll(() => art.evaluate(e => (e as HTMLElement).style.getPropertyValue('--pointer-x'))).not.toBe('');
   await page.mouse.move(2, 2);
   await expect.poll(() => art.evaluate(e => (e as HTMLElement).style.getPropertyValue('--pointer-x'))).toBe('');
-  await page.evaluate(() => { (window as any).routeAnimationFrames = null; });
+  await page.evaluate(() => {
+    (window as any).routeAnimationFrames = null;
+  });
   await page.locator('.main-nav').getByRole('link', { name: '素质问卷', exact: true }).click();
   await expect(page).toHaveURL(/\/assessment$/);
   await expect(page.locator('main h1')).toContainText('社区规则问卷');
   await expect.poll(() => page.evaluate(() => (window as any).routeAnimationFrames)).not.toBeNull();
   const frames = await page.evaluate(() => (window as any).routeAnimationFrames);
-  expect(frames[0].opacity).toBe(0); expect(frames[0].filter).toBe('blur(5px)'); expect(frames[0].clipPath).toContain('inset');
-  expect(frames[1].opacity).toBe(1); expect(frames[1].filter).toBe('blur(0)');
+  expect(frames[0].opacity).toBe(0);
+  expect(frames[0].filter).toBe('blur(5px)');
+  expect(frames[0].clipPath).toContain('inset');
+  expect(frames[1].opacity).toBe(1);
+  expect(frames[1].filter).toBe('blur(0)');
   expect(await page.evaluate(() => (window as any).routeAnimationOptions.duration)).toBe(500);
 });
 
@@ -125,7 +156,10 @@ test('reduced motion and missing/failed View Transition API preserve usable them
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.addInitScript(() => {
     (window as any).transitionCalls = 0;
-    document.startViewTransition = (() => { (window as any).transitionCalls++; throw new Error('unsupported'); }) as any;
+    document.startViewTransition = (() => {
+      (window as any).transitionCalls++;
+      throw new Error('unsupported');
+    }) as any;
   });
   await page.goto('/');
   await page.getByRole('button', { name: '切换深色模式' }).click();
@@ -139,14 +173,22 @@ test('reduced motion and missing/failed View Transition API preserve usable them
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await settled(page);
   expect(await page.evaluate(() => (window as any).transitionCalls)).toBe(1);
-  await page.evaluate(() => { (document as any).startViewTransition = undefined; });
+  await page.evaluate(() => {
+    (document as any).startViewTransition = undefined;
+  });
   await page.getByRole('button', { name: '切换深色模式' }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await settled(page);
 });
 
 test('theme changes preserve typed form state even if browser storage is denied', async ({ page }) => {
-  await page.addInitScript(() => Object.defineProperty(window, 'localStorage', { get() { throw new DOMException('Storage denied', 'SecurityError'); } }));
+  await page.addInitScript(() =>
+    Object.defineProperty(window, 'localStorage', {
+      get() {
+        throw new DOMException('Storage denied', 'SecurityError');
+      }
+    })
+  );
   await page.goto('/assessment');
   await page.getByRole('textbox', { name: /证书昵称/ }).fill('我的未提交昵称');
   await page.getByRole('checkbox').check();
@@ -164,13 +206,20 @@ test('theme changes preserve typed form state even if browser storage is denied'
 });
 
 test('rapid requests settle on last intent; keyboard theme toggle uses button center', async ({ page }) => {
-  const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
+  const errors: string[] = [];
+  page.on('pageerror', e => errors.push(e.message));
   await page.goto('/');
-  await page.evaluate(() => { const button = document.querySelector<HTMLButtonElement>('.mode-toggle')!; button.click(); button.click(); button.click(); });
+  await page.evaluate(() => {
+    const button = document.querySelector<HTMLButtonElement>('.mode-toggle')!;
+    button.click();
+    button.click();
+    button.click();
+  });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await settled(page);
   const toggle = page.getByRole('button', { name: '切换浅色模式' });
-  await toggle.focus(); await page.keyboard.press('Enter');
+  await toggle.focus();
+  await page.keyboard.press('Enter');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await settled(page);
   await expect(page.getByRole('button', { name: '切换深色模式' })).toBeFocused();
@@ -192,7 +241,10 @@ test('six generated palettes have accessible light/dark pages and a usable narro
       for (const surface of ['page', 'dialog']) {
         if (surface === 'dialog') await page.getByRole('button', { name: '选择主题色' }).click();
         const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
-        expect(results.violations.filter(v => v.impact === 'serious' || v.impact === 'critical'), `${preset.name}/${mode}/${surface}`).toEqual([]);
+        expect(
+          results.violations.filter(v => v.impact === 'serious' || v.impact === 'critical'),
+          `${preset.name}/${mode}/${surface}`
+        ).toEqual([]);
       }
       await page.getByRole('button', { name: '完成', exact: true }).click();
     }
@@ -201,7 +253,8 @@ test('six generated palettes have accessible light/dark pages and a usable narro
   for (const width of [320, 375, 768]) {
     await page.setViewportSize({ width, height: 740 });
     const bounds = (await page.getByRole('dialog').boundingBox())!;
-    expect(bounds.x).toBeGreaterThanOrEqual(0); expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);
+    expect(bounds.x).toBeGreaterThanOrEqual(0);
+    expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);
     expect(await page.getByRole('dialog').evaluate(e => e.scrollWidth <= e.clientWidth)).toBe(true);
   }
 });

@@ -53,15 +53,15 @@ Vite 启动/热更新/构建也会检查；图片不存在、重复 ID、危险 
 
 必填字段：
 
-| 字段 | 用途 |
-| --- | --- |
-| `id`、`name` | 稳定唯一标识与名称 |
-| `summary` | 项目介绍，最多 1000 字符 |
-| `category` | `engine` / `language` / `framework` / `game` |
-| `relationship` | 与社团的真实关系，最多 200 字符 |
-| `tags` | 最多 8 项，每项最多 30 字符；允许空数组 |
-| `licenseNote` | 代码/资源使用提醒，最多 600 字符 |
-| `sourceUrl` | 核实项目介绍及授权的官方来源 |
+| 字段           | 用途                                         |
+| -------------- | -------------------------------------------- |
+| `id`、`name`   | 稳定唯一标识与名称                           |
+| `summary`      | 项目介绍，最多 1000 字符                     |
+| `category`     | `engine` / `language` / `framework` / `game` |
+| `relationship` | 与社团的真实关系，最多 200 字符              |
+| `tags`         | 最多 8 项，每项最多 30 字符；允许空数组      |
+| `licenseNote`  | 代码/资源使用提醒，最多 600 字符             |
+| `sourceUrl`    | 核实项目介绍及授权的官方来源                 |
 
 可选：`featured`（首页前三个）、`links`、`cover`、`coverAlt`、`illustration`。
 
@@ -89,9 +89,7 @@ Vite 启动/热更新/构建也会检查；图片不存在、重复 ID、危险 
       "startDate": "2030-01-01",
       "endDate": "2030-01-03",
       "location": "替换为真实地点或线上",
-      "links": [
-        { "label": "赛事公告", "url": "https://example.com/" }
-      ]
+      "links": [{ "label": "赛事公告", "url": "https://example.com/" }]
     }
   ]
 }

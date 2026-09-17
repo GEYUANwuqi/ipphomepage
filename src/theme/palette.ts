@@ -1,20 +1,65 @@
-import { argbFromHex, Blend, Hct, hexFromArgb, SchemeTonalSpot, TonalPalette } from '@material/material-color-utilities';
+import {
+  argbFromHex,
+  Blend,
+  Hct,
+  hexFromArgb,
+  SchemeTonalSpot,
+  TonalPalette
+} from '@material/material-color-utilities';
 
 import { DEFAULT_SEED } from './presets';
 export { DEFAULT_SEED, THEME_PRESETS } from './presets';
 
 const roles = [
-  'primary', 'onPrimary', 'primaryContainer', 'onPrimaryContainer', 'inversePrimary',
-  'secondary', 'onSecondary', 'secondaryContainer', 'onSecondaryContainer',
-  'tertiary', 'onTertiary', 'tertiaryContainer', 'onTertiaryContainer',
-  'error', 'onError', 'errorContainer', 'onErrorContainer',
-  'background', 'onBackground', 'surface', 'onSurface', 'surfaceDim', 'surfaceBright',
-  'surfaceContainerLowest', 'surfaceContainerLow', 'surfaceContainer', 'surfaceContainerHigh', 'surfaceContainerHighest',
-  'surfaceVariant', 'onSurfaceVariant', 'outline', 'outlineVariant', 'inverseSurface', 'inverseOnSurface',
-  'shadow', 'scrim', 'surfaceTint',
-  'primaryFixed', 'primaryFixedDim', 'onPrimaryFixed', 'onPrimaryFixedVariant',
-  'secondaryFixed', 'secondaryFixedDim', 'onSecondaryFixed', 'onSecondaryFixedVariant',
-  'tertiaryFixed', 'tertiaryFixedDim', 'onTertiaryFixed', 'onTertiaryFixedVariant',
+  'primary',
+  'onPrimary',
+  'primaryContainer',
+  'onPrimaryContainer',
+  'inversePrimary',
+  'secondary',
+  'onSecondary',
+  'secondaryContainer',
+  'onSecondaryContainer',
+  'tertiary',
+  'onTertiary',
+  'tertiaryContainer',
+  'onTertiaryContainer',
+  'error',
+  'onError',
+  'errorContainer',
+  'onErrorContainer',
+  'background',
+  'onBackground',
+  'surface',
+  'onSurface',
+  'surfaceDim',
+  'surfaceBright',
+  'surfaceContainerLowest',
+  'surfaceContainerLow',
+  'surfaceContainer',
+  'surfaceContainerHigh',
+  'surfaceContainerHighest',
+  'surfaceVariant',
+  'onSurfaceVariant',
+  'outline',
+  'outlineVariant',
+  'inverseSurface',
+  'inverseOnSurface',
+  'shadow',
+  'scrim',
+  'surfaceTint',
+  'primaryFixed',
+  'primaryFixedDim',
+  'onPrimaryFixed',
+  'onPrimaryFixedVariant',
+  'secondaryFixed',
+  'secondaryFixedDim',
+  'onSecondaryFixed',
+  'onSecondaryFixedVariant',
+  'tertiaryFixed',
+  'tertiaryFixedDim',
+  'onTertiaryFixed',
+  'onTertiaryFixedVariant'
 ] as const;
 
 const kebab = (role: string) => role.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
@@ -36,19 +81,43 @@ function paperPalette(source: number) {
 /** Outline sits at 45 rather than M3's 50: tone 50 on the new surface only clears 4.5:1 by 4%. */
 const PAPER_TONES = {
   light: {
-    surface: 97.5, background: 97.5, surfaceBright: 99, surfaceDim: 87,
-    surfaceContainerLowest: 100, surfaceContainerLow: 96, surfaceContainer: 94,
-    surfaceContainerHigh: 92, surfaceContainerHighest: 90,
-    onSurface: 10, onBackground: 10, onSurfaceVariant: 38, surfaceVariant: 90,
-    outline: 45, outlineVariant: 80, inverseSurface: 22, inverseOnSurface: 96,
+    surface: 97.5,
+    background: 97.5,
+    surfaceBright: 99,
+    surfaceDim: 87,
+    surfaceContainerLowest: 100,
+    surfaceContainerLow: 96,
+    surfaceContainer: 94,
+    surfaceContainerHigh: 92,
+    surfaceContainerHighest: 90,
+    onSurface: 10,
+    onBackground: 10,
+    onSurfaceVariant: 38,
+    surfaceVariant: 90,
+    outline: 45,
+    outlineVariant: 80,
+    inverseSurface: 22,
+    inverseOnSurface: 96
   },
   dark: {
-    surface: 7, background: 7, surfaceBright: 26, surfaceDim: 6,
-    surfaceContainerLowest: 4, surfaceContainerLow: 10, surfaceContainer: 12,
-    surfaceContainerHigh: 17, surfaceContainerHighest: 22,
-    onSurface: 92, onBackground: 92, onSurfaceVariant: 78, surfaceVariant: 32,
-    outline: 62, outlineVariant: 38, inverseSurface: 92, inverseOnSurface: 22,
-  },
+    surface: 7,
+    background: 7,
+    surfaceBright: 26,
+    surfaceDim: 6,
+    surfaceContainerLowest: 4,
+    surfaceContainerLow: 10,
+    surfaceContainer: 12,
+    surfaceContainerHigh: 17,
+    surfaceContainerHighest: 22,
+    onSurface: 92,
+    onBackground: 92,
+    onSurfaceVariant: 78,
+    surfaceVariant: 32,
+    outline: 62,
+    outlineVariant: 38,
+    inverseSurface: 92,
+    inverseOnSurface: 22
+  }
 } as const;
 
 export function normalizeSeed(seed: unknown): string | null {
@@ -69,7 +138,10 @@ export function buildPalette(seed: string, dark: boolean): Record<string, string
   tokens['--lavender'] = hexFromArgb(scheme.primaryContainer);
   tokens['--on-lavender'] = hexFromArgb(scheme.onPrimaryContainer);
   // Preserve the semantic identity of green/sunset accents while harmonizing them to the seed.
-  for (const [name, color] of [['mint', '#47785b'], ['peach', '#b66b37']]) {
+  for (const [name, color] of [
+    ['mint', '#47785b'],
+    ['peach', '#b66b37']
+  ]) {
     const accent = new SchemeTonalSpot(Hct.fromInt(Blend.harmonize(argbFromHex(color), source)), dark, 0);
     tokens[`--${name}`] = hexFromArgb(accent.primaryContainer);
     tokens[`--on-${name}`] = hexFromArgb(accent.onPrimaryContainer);
