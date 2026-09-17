@@ -2,6 +2,12 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { THEME_PRESETS } from '../src/theme/presets';
 
+// 这些用例断言的是版式与交互，不是名单内容，所以统一跑在固定的演示成员上，
+// 真实 people.json 增删成员不会让它们变红。见 src/content/PeopleProvider.tsx。
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('ipp:demo-people', '1'));
+});
+
 test('member books filter by group/year/search and expose full profiles and bookmark links', async ({ page }, info) => {
   await page.goto('/people');
   await expect(page.locator('.person-book')).toHaveCount(12);
