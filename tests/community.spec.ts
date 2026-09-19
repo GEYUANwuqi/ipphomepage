@@ -148,6 +148,16 @@ test('visible cards, artwork and UI switches use finite expressive motion', asyn
         .evaluate(e => getComputedStyle(e).translate)
     )
     .not.toBe('none');
+  await expect
+    .poll(() =>
+      page.locator('.person-book').first().evaluate(book => {
+        const cover = book.querySelector<HTMLElement>('.person-cover');
+        const spine = book.querySelector<HTMLElement>('.person-spine');
+        if (!cover || !spine) throw new Error('Member book is missing its cover or spine');
+        return Math.abs(cover.getBoundingClientRect().top - spine.getBoundingClientRect().top);
+      })
+    )
+    .toBeLessThan(0.5);
 
   await page.goto('/projects');
   await moved('.project-card');
@@ -263,7 +273,9 @@ test('mobile bottom nav renders its icons and keeps the active label clear of th
   const geom = await active.evaluate(a => {
     const pill = getComputedStyle(a, '::before');
     const link = a.getBoundingClientRect();
-    const label = a.querySelector('span').getBoundingClientRect();
+    const labelElement = a.querySelector('span');
+    if (!labelElement) throw new Error('Active navigation link is missing its label');
+    const label = labelElement.getBoundingClientRect();
     return { pillBottom: parseFloat(pill.top) + parseFloat(pill.height), labelTop: label.top - link.top };
   });
   expect(geom.labelTop).toBeGreaterThanOrEqual(geom.pillBottom);
