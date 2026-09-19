@@ -60,7 +60,7 @@ test('member books filter by group/year/search and expose full profiles and book
   await expect(page.locator('.person-book')).toHaveCount(12);
 });
 
-test('people search wraps its label while the year focus ring stays on the select', async ({ page }) => {
+test('people filters use custom surfaces while focus rings stay on the interactive controls', async ({ page }) => {
   await page.goto('/people');
 
   const search = page.getByRole('searchbox', { name: '搜索成员' });
@@ -71,6 +71,11 @@ test('people search wraps its label while the year focus ring stays on the selec
   await expect(search).toHaveCSS('outline-style', 'none');
 
   const year = page.getByRole('combobox', { name: '年级', exact: true });
+  const customizable = await page.evaluate(() => CSS.supports('appearance', 'base-select'));
+  await expect(year).toHaveCSS('appearance', customizable ? 'base-select' : 'none');
+  await expect(year).toHaveCSS('min-height', '48px');
+  await expect(year).toHaveCSS('border-radius', '12px');
+  await expect(page.locator('.year-select > svg')).toBeVisible();
   await year.focus();
   await expect(year.locator('xpath=..')).toHaveCSS('outline-style', 'none');
   await expect(year).toHaveCSS('outline-style', 'solid');
