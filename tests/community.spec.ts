@@ -60,6 +60,24 @@ test('member books filter by group/year/search and expose full profiles and book
   await expect(page.locator('.person-book')).toHaveCount(12);
 });
 
+test('people search wraps its label while the year focus ring stays on the select', async ({ page }) => {
+  await page.goto('/people');
+
+  const search = page.getByRole('searchbox', { name: '搜索成员' });
+  await search.focus();
+  await expect(search.locator('xpath=..')).toHaveCSS('outline-style', 'solid');
+  await expect(search.locator('xpath=..')).toHaveCSS('outline-width', '2px');
+  await expect(search.locator('xpath=..')).toHaveCSS('outline-offset', '-2px');
+  await expect(search).toHaveCSS('outline-style', 'none');
+
+  const year = page.getByRole('combobox', { name: '年级', exact: true });
+  await year.focus();
+  await expect(year.locator('xpath=..')).toHaveCSS('outline-style', 'none');
+  await expect(year).toHaveCSS('outline-style', 'solid');
+  await expect(year).toHaveCSS('outline-width', '2px');
+  await expect(year).toHaveCSS('outline-offset', '-2px');
+});
+
 test('projects show real sources and events have an honest empty state', async ({ page }, info) => {
   await page.goto('/projects');
   await expect(page.locator('.project-card')).toHaveCount(4);
