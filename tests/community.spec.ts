@@ -144,18 +144,16 @@ test('visible cards, artwork and UI switches use finite expressive motion', asyn
         .evaluate(e => getComputedStyle(e).scale)
     )
     .not.toBe('none');
-  await page.locator('.person-book').first().hover();
+  const firstPersonBook = page.locator('.person-book').first();
+  await firstPersonBook.hover();
   await expect
     .poll(() =>
-      page
-        .locator('.person-book .person-avatar')
-        .first()
-        .evaluate(e => getComputedStyle(e).translate)
+      firstPersonBook.locator('.person-avatar').evaluate(e => getComputedStyle(e).translate)
     )
     .not.toBe('none');
   await expect
     .poll(() =>
-      page.locator('.person-book').first().evaluate(book => {
+      firstPersonBook.evaluate(book => {
         const cover = book.querySelector<HTMLElement>('.person-cover');
         const spine = book.querySelector<HTMLElement>('.person-spine');
         if (!cover || !spine) throw new Error('Member book is missing its cover or spine');
